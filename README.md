@@ -4,7 +4,7 @@
 
 English README (this page) | [日本語版](./README.ja.md)
 
-![Tests](https://github.com/yourname/AI-Agent-Dev-WBS-OS/actions/workflows/tests.yml/badge.svg)
+![Tests](https://github.com/codebay88/AI-Agent-Dev-WBS-OS/actions/workflows/tests.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.11-blue.svg)
 
@@ -161,7 +161,7 @@ AI-Agent-Dev-WBS-OS/
 ## Installation
 
 ```bash
-git clone https://github.com/yourname/AI-Agent-Dev-WBS-OS.git
+git clone https://github.com/codebay88/AI-Agent-Dev-WBS-OS.git
 cd AI-Agent-Dev-WBS-OS
 pip install -r requirements.txt
 ```
