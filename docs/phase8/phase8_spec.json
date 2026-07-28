@@ -1,0 +1,164 @@
+{
+  "phase8": {
+    "version": "2026-07-23",
+    "title": "AIWBS作成エージェント 展開仕様（Phase 8）",
+    "deployment_stages": [
+      "limited_environment",
+      "trial_operation",
+      "evaluation",
+      "expansion",
+      "full_deployment"
+    ],
+
+    "stage_details": {
+      "limited_environment": {
+        "start_conditions": [
+          "phase7_complete == true",
+          "learning_dataset.json exists",
+          "learning_patterns.json exists",
+          "optimization_report.json exists",
+          "sandbox_available == true"
+        ],
+        "completion_conditions": [
+          "F9510 executed successfully",
+          "io_integrity == 100%",
+          "log_output == normal",
+          "hitl_approval == true"
+        ]
+      },
+
+      "trial_operation": {
+        "start_conditions": [
+          "limited_environment.hitl_approval == true",
+          "io_connection_to_support_agent == established"
+        ],
+        "completion_conditions": [
+          "F9520 executed successfully",
+          "failure_repository_sync == success",
+          "knowledge_cycle_update == success",
+          "reproducibility_test_passed == true",
+          "hitl_approval == true"
+        ]
+      },
+
+      "evaluation": {
+        "start_conditions": [
+          "trial_operation.hitl_approval == true",
+          "evaluation_metrics_defined == true"
+        ],
+        "completion_conditions": [
+          "optimization_report.score >= threshold",
+          "error_rate <= allowed_range",
+          "logs_complete == true",
+          "hitl_approval == true"
+        ]
+      },
+
+      "expansion": {
+        "start_conditions": [
+          "evaluation.hitl_approval == true",
+          "multi_environment_ready == true"
+        ],
+        "completion_conditions": [
+          "load_test_passed == true",
+          "io_integrity_all_env == true",
+          "rollback_test_passed == true",
+          "hitl_approval == true"
+        ]
+      },
+
+      "full_deployment": {
+        "start_conditions": [
+          "expansion.hitl_approval == true",
+          "all_environments_ready == true"
+        ],
+        "completion_conditions": [
+          "F9530 executed successfully",
+          "all_logs_saved == true",
+          "phase8_complete == true",
+          "hitl_final_approval == true"
+        ]
+      }
+    },
+
+    "hitl_points": {
+      "required": [
+        "limited_environment",
+        "trial_operation",
+        "evaluation",
+        "expansion",
+        "full_deployment"
+      ]
+    },
+
+    "risk_conditions": [
+      "io_integrity_failure",
+      "learning_pattern_misapplication",
+      "boundary_violation_with_support_agent",
+      "autonomous_loop_overrun",
+      "log_missing",
+      "hitl_approval_missing"
+    ],
+
+    "abort_conditions": [
+      "error_rate > threshold",
+      "log_missing == true",
+      "exception_count >= 2",
+      "sandbox_failure == true",
+      "hitl_decision == abort"
+    ],
+
+    "rollback_conditions": [
+      "stage_completion_failed",
+      "io_integrity_failure",
+      "failure_repository_sync_error",
+      "hitl_request_retry",
+      "unexpected_agent_stop"
+    ],
+
+    "rollback_policy": {
+      "strategy": "step_back_one_stage",
+      "log_file": "rollback_log.json"
+    },
+
+    "io_map": {
+      "inputs": [
+        "learning_dataset.json",
+        "learning_patterns.json",
+        "optimization_report.json"
+      ],
+      "outputs": [
+        "deployment_trace.json",
+        "rollback_log.json",
+        "phase8_complete_flag"
+      ]
+    },
+
+    "logging": {
+      "required_logs": [
+        "deployment_stage_log",
+        "io_integrity_log",
+        "hitl_approval_log",
+        "exception_log",
+        "rollback_log.json",
+        "deployment_trace.json"
+      ]
+    },
+
+    "claude_code_modules": {
+      "F9510": "deployment_plan_design",
+      "F9520": "support_agent_integration",
+      "F9530": "deployment_test_and_stabilization"
+    },
+
+    "test_criteria": {
+      "io_integrity": "100%",
+      "reproducibility": "3_successive_runs",
+      "rollback": "must_pass",
+      "load_test": "must_pass",
+      "hitl_flow": "all_points_required",
+      "stability": "no_unexpected_stop",
+      "learning_application": "correct_and_verified"
+    }
+  }
+}

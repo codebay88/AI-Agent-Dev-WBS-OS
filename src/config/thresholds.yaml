@@ -1,0 +1,35 @@
+# WP9220 テンプレ改善 — 閾値設定ファイル
+# Phase 6 改善層が feedback_report.json の分析結果に基づき管理する
+# 手動編集禁止: TemplateOptimizer.save_thresholds() 経由で更新すること
+
+version: "1.0.0"
+phase: 6
+source: docs/phase6/feedback_report.json
+
+# 異常検知閾値（monitoring/daily_operation.py の ANOMALY_THRESHOLDS と同期）
+monitoring:
+  consecutive_errors: 3    # ERROR 累積件数がこれ以上で異常
+  hitl_per_session: 10     # HITL 件数がこれを超えると異常
+  retry_per_session: 5     # RETRY 件数がこれを超えると異常
+
+# アラートルール閾値（monitoring/alert_rules.py の DEFAULT_RULES と同期）
+alert_rules:
+  error_threshold: 1         # ERROR は 1 件で即時通知
+  warning_consecutive: 5     # WARNING は 5 件連続で通知
+  retry_consecutive: 3       # RETRY は 3 件連続で通知
+  hitl_delay_seconds: 30.0   # HITL 承認遅延 30 秒超過で通知
+
+# HITL 承認フロー閾値（monitoring/hitl_tracker.py / hitl_approval.py と同期）
+hitl:
+  approval_rate_warning: 0.90   # 承認率がこれを超えると誤承認警告
+  max_reprocess: 3              # 再処理上限
+
+# 改善判定閾値（improvement/feedback_collector.py の _IMPROVEMENT_RULES と同期）
+improvement:
+  retry_rate_threshold: 0.10     # RETRY率がこれを超えると改善候補に追加
+  failsafe_rate_threshold: 0.05  # フェイルセーフ率がこれを超えると改善候補に追加
+
+# テンプレート設定（agents/f50_module.py の _TEMPLATES と同期）
+templates:
+  max_task_text_length: 200     # テンプレート適用時のタスクテキスト最大長
+  ambiguous_word_check: true    # HITL 発動前に曖昧語チェックを実施

@@ -1,0 +1,27 @@
+{
+  "trace_id": "F20",
+  "source_trace_id": "F10",
+  "expanded_goals": [
+    {
+      "element_id": "E1",
+      "text": "売上を伸ばす",
+      "parent": "L1"
+    },
+    {
+      "element_id": "E2",
+      "text": "新規獲得",
+      "parent": "L2"
+    },
+    {
+      "element_id": "E3",
+      "text": "LP作成",
+      "parent": "L3"
+    },
+    {
+      "element_id": "E4",
+      "text": "広告配信",
+      "parent": "L3"
+    }
+  ],
+  "hitl": false
+}

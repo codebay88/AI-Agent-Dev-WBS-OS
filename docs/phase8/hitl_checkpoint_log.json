@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-07-23T14:11:12.018958",
+  "module": "F9510",
+  "total_checkpoints": 5,
+  "checkpoints": [
+    {
+      "stage": "limited_environment",
+      "required": true,
+      "status": "pending",
+      "approved_at": null
+    },
+    {
+      "stage": "trial_operation",
+      "required": true,
+      "status": "pending",
+      "approved_at": null,
+      "f9520_set_at": "2026-07-23T14:23:07.075417",
+      "f9520_status": "pending"
+    },
+    {
+      "stage": "evaluation",
+      "required": true,
+      "status": "pending",
+      "approved_at": null
+    },
+    {
+      "stage": "expansion",
+      "required": true,
+      "status": "pending",
+      "approved_at": null
+    },
+    {
+      "stage": "full_deployment",
+      "required": true,
+      "status": "pending",
+      "approved_at": null,
+      "f9530_set_at": "2026-07-23T14:36:39.798232",
+      "f9530_status": "pending"
+    }
+  ],
+  "current_stage": "full_deployment",
+  "log_status": "normal"
+}

@@ -1,0 +1,40 @@
+{
+  "trace_id": "F50",
+  "source_trace_id": "F40",
+  "templated_tasks": [
+    {
+      "task_id": "T1",
+      "template_id": "TMP_MEDIUM",
+      "templated_text": "【優先度: 中】検討すべきタスク: 【計画】売上を伸ばす",
+      "priority": "Medium",
+      "effort": 3,
+      "value": 4
+    },
+    {
+      "task_id": "T2",
+      "template_id": "TMP_MEDIUM",
+      "templated_text": "【優先度: 中】検討すべきタスク: 【計画】新規獲得",
+      "priority": "Medium",
+      "effort": 3,
+      "value": 3
+    },
+    {
+      "task_id": "T3",
+      "template_id": "TMP_MEDIUM",
+      "templated_text": "【優先度: 中】検討すべきタスク: 【計画】LP作成",
+      "priority": "Medium",
+      "effort": 2,
+      "value": 3
+    },
+    {
+      "task_id": "T4",
+      "template_id": "TMP_MEDIUM",
+      "templated_text": "【優先度: 中】検討すべきタスク: 【計画】広告配信",
+      "priority": "Medium",
+      "effort": 2,
+      "value": 3
+    }
+  ],
+  "hitl": false,
+  "hitl_elements": []
+}

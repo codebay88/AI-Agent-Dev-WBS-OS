@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-07-23T13:54:35.643206",
+  "phase": 8,
+  "stages": {
+    "limited_environment": {
+      "f9510_entry": "F9510 executed successfully",
+      "io_integrity": 100.0,
+      "log_status": "normal",
+      "phase8_stage": "limited_environment",
+      "hitl_count": 5,
+      "executed_at": "2026-07-23T14:11:12.016940"
+    },
+    "trial_operation": {
+      "f9520_entry": "F9520 executed successfully",
+      "io_integrity": 1.0,
+      "repro_passed": true,
+      "phase8_stage": "trial_operation",
+      "executed_at": "2026-07-23T14:23:07.075417"
+    },
+    "evaluation": {
+      "status": "completed",
+      "module_result": {
+        "opt_score": 0.9119,
+        "error_rate": 0.0,
+        "logs_complete": true,
+        "success": true
+      },
+      "hitl": "approve",
+      "completed_at": "2026-07-23T13:54:35.643206"
+    },
+    "expansion": {
+      "status": "completed",
+      "module_result": {
+        "load_test_passed": true,
+        "io_integrity_all_env": true,
+        "rollback_test_passed": true,
+        "success": true
+      },
+      "hitl": "approve",
+      "completed_at": "2026-07-23T13:54:35.643206"
+    },
+    "full_deployment": {
+      "f9530_entry": "F9530 executed successfully",
+      "stability_status": "stable",
+      "error_rate": 0.0,
+      "opt_score": 0.9119,
+      "repro_passed": true,
+      "executed_at": "2026-07-23T14:36:39.804286"
+    }
+  },
+  "rollback_events": [],
+  "phase8_complete": true,
+  "abort_reason": null
+}

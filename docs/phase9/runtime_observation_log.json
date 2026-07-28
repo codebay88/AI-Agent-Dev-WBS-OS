@@ -1,0 +1,96 @@
+{
+  "generated_at": "2026-07-23T15:19:45.716340",
+  "module": "F9620",
+  "trials": [
+    {
+      "trial": 1,
+      "passed": true,
+      "loop_results": [
+        {
+          "loop_id": "L-001",
+          "name": "WBS 生成ループ",
+          "passed": true,
+          "iter": 1
+        },
+        {
+          "loop_id": "L-002",
+          "name": "展開・安定化ループ",
+          "passed": true,
+          "iter": 1
+        },
+        {
+          "loop_id": "L-003",
+          "name": "知識循環ループ",
+          "passed": true,
+          "iter": 1
+        }
+      ]
+    },
+    {
+      "trial": 2,
+      "passed": true,
+      "loop_results": [
+        {
+          "loop_id": "L-001",
+          "name": "WBS 生成ループ",
+          "passed": true,
+          "iter": 1
+        },
+        {
+          "loop_id": "L-002",
+          "name": "展開・安定化ループ",
+          "passed": true,
+          "iter": 1
+        },
+        {
+          "loop_id": "L-003",
+          "name": "知識循環ループ",
+          "passed": true,
+          "iter": 1
+        }
+      ]
+    },
+    {
+      "trial": 3,
+      "passed": true,
+      "loop_results": [
+        {
+          "loop_id": "L-001",
+          "name": "WBS 生成ループ",
+          "passed": true,
+          "iter": 1
+        },
+        {
+          "loop_id": "L-002",
+          "name": "展開・安定化ループ",
+          "passed": true,
+          "iter": 1
+        },
+        {
+          "loop_id": "L-003",
+          "name": "知識循環ループ",
+          "passed": true,
+          "iter": 1
+        }
+      ]
+    }
+  ],
+  "trial_count": 3,
+  "passed_count": 3,
+  "success_rate": 1.0,
+  "sandbox_ok": true,
+  "exception_count": 0,
+  "autonomy_log": [
+    "[2026-07-23T15:19:45.700978] Step1: loaded=3/3 loop_candidates=['aiwbs', 'support', 'knowledge_cycle'] missing=[]",
+    "[2026-07-23T15:19:45.700978] Step2: loops=3 max=3 design_ok=True",
+    "[2026-07-23T15:19:45.700978] Step4: kc_linked=True repo_linked=True repo_entries=5 all_linked=True",
+    "[2026-07-23T15:19:45.700978] Step5: opt_score=0.9119 parameters_set=True",
+    "[2026-07-23T15:19:45.700978] Step6: control_loop_config consistent=True",
+    "[2026-07-23T15:19:45.700978] Step7: sandbox_trial_1=PASS",
+    "[2026-07-23T15:19:45.700978] Step7: sandbox_trial_2=PASS",
+    "[2026-07-23T15:19:45.700978] Step7: sandbox_trial_3=PASS",
+    "[2026-07-23T15:19:45.700978] Step7: sandbox PASSED (3/3)",
+    "[2026-07-23T15:19:45.700978] Step8: profile generated success=True"
+  ],
+  "exception_log": []
+}

@@ -1,0 +1,1470 @@
+{
+  "generated_at": "2026-07-22T22:40:56.746002",
+  "version": "1.0.0",
+  "phase": 7,
+  "total_entries": 48,
+  "category_counts": {
+    "operational": 38,
+    "improvement": 5,
+    "maintenance": 1,
+    "environment": 4
+  },
+  "learning_entries": [
+    {
+      "entry_id": "LE-IMP-001",
+      "category": "improvement",
+      "source": "FL-001",
+      "module": "F10",
+      "failure_category": "hitl",
+      "description": "曖昧語（など/いろいろ等）を含む入力で HITL が発動",
+      "cause": "goal_text に AMBIGUOUS_WORDS が含まれる",
+      "action": "ユーザーが曖昧語を除去して再入力する",
+      "result": "ユーザーへフィードバック → 入力修正後に再実行",
+      "pattern_type": "failure_resolved",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-IMP-002",
+      "category": "improvement",
+      "source": "FL-002",
+      "module": "F10",
+      "failure_category": "retry_exceeded",
+      "description": "API 呼び出しが MAX_RETRY=3 回失敗し RuntimeError が発生",
+      "cause": "ネットワーク障害または API タイムアウト",
+      "action": "フェイルセーフ発動・エラーを上位に伝播",
+      "result": "パイプライン即時停止 → エラー上位伝播",
+      "pattern_type": "failure_stopped",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-IMP-003",
+      "category": "improvement",
+      "source": "FL-003",
+      "module": "F60",
+      "failure_category": "mece_uncertainty",
+      "description": "cosine 類似度が 0.80〜0.85 の不確実域で HITL_required が発動",
+      "cause": "0.80 ≤ cos ≤ 0.85（重複ではなく不確実）",
+      "action": "HITL 承認後に再処理またはスキップ",
+      "result": "HITL 移譲 → ユーザー承認待ち",
+      "pattern_type": "failure_resolved",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-IMP-004",
+      "category": "improvement",
+      "source": "FL-004",
+      "module": "F80",
+      "failure_category": "trace_chain",
+      "description": "不明な trace_id または循環依存が検出され HITL 移譲",
+      "cause": "trace_chain に存在しない trace_id が参照される",
+      "action": "HITL 移譲・hitl_elements にノードを記録",
+      "result": "HITL 移譲 → ユーザー承認待ち",
+      "pattern_type": "failure_resolved",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-IMP-005",
+      "category": "improvement",
+      "source": "FL-005",
+      "module": "F40",
+      "failure_category": "hitl",
+      "description": "タスクリストが空で HITL_required が発動",
+      "cause": "goals が空リスト、または全ゴールが除外された場合",
+      "action": "ユーザーが目的を見直して再入力",
+      "result": "ユーザーへフィードバック → 入力修正後に再実行",
+      "pattern_type": "failure_resolved",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-001",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F10〜F90 因果構造マップ完全一致",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-002",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "trace_id / source_trace_id チェーン完全性",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-003",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "テンプレート適用（TMP_HIGH/MED/LOW）正確性",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-004",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "estimated_effort → effort 変換境界",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-005",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "MECE 判定閾値（cos=0.85 厳密境界）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-006",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "duplicate-only は HITL を発動しない",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-007",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F60 パススルー同一性",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-008",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F80 hierarchy パススルー同一性",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-009",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "None 入力 → 各モジュール正しい例外クラス",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-010",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F30/F40 が ValueError（field level）を使用",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-011",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F90 が ValueError(tmap) / TypeError(hierarchy) の非対称",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-012",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "RuntimeError.__cause__ 保持（F50/F90）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-013",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "全曖昧語（F10/F20/F30/F50/F60）HITL 発動",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-014",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "承認パス（修正→再実行→hitl=False）動作",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-015",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "HITL 冪等性（同一入力→同一結果）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-016",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F10 API リトライ MAX_RETRY=3 回発動",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-017",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "リトライ間 time.sleep 発動確認",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-018",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "2回目成功時の正常回復",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-019",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "JSONDecodeError → リトライ発動",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-020",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F80 循環依存 → hitl_elements 安全停止",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-021",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F80 不明 trace_chain → HITL 移譲",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-022",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F90 不完全 traceability → hitl_elements",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-023",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "全モジュール INFO ログ記録",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-024",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "HITL 移譲 WARNING ログ記録",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-025",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "不明 trace_id → WARNING 継続処理",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-026",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "HITL 複数サイクル収束",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-027",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "APIキーは HITL 手動入力（コードに不在）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-028",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "APIキーをログ・出力に表示しない",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-029",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "外部サービス接続は最小権限（全件モック化）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-030",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": ".env ファイルは Git 非コミット（.gitignore 適用済み）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-031",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "全 API リトライ失敗          → RuntimeError 発火・上位伝播",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-032",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "空 tasks/goals 入力          → HITL 移譲（hitl_required=True）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-033",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "不完全 trace_chain           → HITL 移譲（hitl_elements 設定）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-034",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "循環依存検出                 → HITL 移譲（hitl_elements 設定）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-035",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "cosine 計算失敗              → RuntimeError(__cause__ 保持）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-036",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "抽象語 recommendation        → HITL 移譲（hitl_elements=[\"recommendations\"]）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-037",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "孤立ノード（F10 ツリー）     → WARNING ログ + 処理継続",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-038",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "例外発生後の他モジュール     → 例外影響なし（独立性確認）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-MNT-001",
+      "category": "maintenance",
+      "source": "wbs_history.log",
+      "timestamp": "2026-07-22T20:03:28",
+      "cause": "WBS 構造更新要求（WP9300 初回 WBS 構造生成）",
+      "action": "追加=['Phase1-3', 'Phase4', 'Phase5', 'Phase6', 'Phase6.5', 'Phase7', 'Phase8'] / 削除=なし / 変更=なし",
+      "result": "変更総件数=7件 — wbs_history.log に記録済み",
+      "change_type": "addition",
+      "total_changes": 7,
+      "pattern_type": "maintenance",
+      "reproducibility": "medium"
+    },
+    {
+      "entry_id": "LE-ENV-001",
+      "category": "environment",
+      "source": "os_update_report.json",
+      "cause": "パッケージ確認: pytest installed=9.1.1 required>=7.0.0",
+      "action": "update_type=optional / status=ok",
+      "result": "status=ok — 全パッケージ正常 — 更新不要",
+      "pattern_type": "environment_check",
+      "reproducibility": "medium"
+    },
+    {
+      "entry_id": "LE-ENV-002",
+      "category": "environment",
+      "source": "os_update_report.json",
+      "cause": "パッケージ確認: pytest-mock installed=3.15.1 required>=3.0.0",
+      "action": "update_type=optional / status=ok",
+      "result": "status=ok — 全パッケージ正常 — 更新不要",
+      "pattern_type": "environment_check",
+      "reproducibility": "medium"
+    },
+    {
+      "entry_id": "LE-ENV-003",
+      "category": "environment",
+      "source": "os_update_report.json",
+      "cause": "パッケージ確認: pyyaml installed=6.0.3 required>=6.0",
+      "action": "update_type=optional / status=ok",
+      "result": "status=ok — 全パッケージ正常 — 更新不要",
+      "pattern_type": "environment_check",
+      "reproducibility": "medium"
+    },
+    {
+      "entry_id": "LE-ENV-004",
+      "category": "environment",
+      "source": "os_update_report.json",
+      "cause": "OS環境確認: Python 3.11.9 / Windows AMD64",
+      "action": "安全性スコア算出: 100/100",
+      "result": "hitl_required=False — 全パッケージ正常 — 更新不要",
+      "pattern_type": "environment_assessment",
+      "reproducibility": "high"
+    }
+  ],
+  "categories": {
+    "operational": [
+      {
+        "entry_id": "LE-OPR-001",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "F10〜F90 因果構造マップ完全一致",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-002",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "trace_id / source_trace_id チェーン完全性",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-003",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "テンプレート適用（TMP_HIGH/MED/LOW）正確性",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-004",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "estimated_effort → effort 変換境界",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-005",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "MECE 判定閾値（cos=0.85 厳密境界）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-006",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "duplicate-only は HITL を発動しない",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-007",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "F60 パススルー同一性",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-008",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "F80 hierarchy パススルー同一性",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-009",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "None 入力 → 各モジュール正しい例外クラス",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-010",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "F30/F40 が ValueError（field level）を使用",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-011",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "F90 が ValueError(tmap) / TypeError(hierarchy) の非対称",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-012",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "RuntimeError.__cause__ 保持（F50/F90）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-013",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "全曖昧語（F10/F20/F30/F50/F60）HITL 発動",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-014",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "承認パス（修正→再実行→hitl=False）動作",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-015",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "HITL 冪等性（同一入力→同一結果）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-016",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "F10 API リトライ MAX_RETRY=3 回発動",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-017",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "リトライ間 time.sleep 発動確認",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-018",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "2回目成功時の正常回復",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-019",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "JSONDecodeError → リトライ発動",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-020",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "F80 循環依存 → hitl_elements 安全停止",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-021",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "F80 不明 trace_chain → HITL 移譲",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-022",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "F90 不完全 traceability → hitl_elements",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-023",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "全モジュール INFO ログ記録",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-024",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "HITL 移譲 WARNING ログ記録",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-025",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "不明 trace_id → WARNING 継続処理",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-026",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "HITL 複数サイクル収束",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-027",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "APIキーは HITL 手動入力（コードに不在）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-028",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "APIキーをログ・出力に表示しない",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-029",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "外部サービス接続は最小権限（全件モック化）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-030",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": ".env ファイルは Git 非コミット（.gitignore 適用済み）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-031",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "全 API リトライ失敗          → RuntimeError 発火・上位伝播",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-032",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "空 tasks/goals 入力          → HITL 移譲（hitl_required=True）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-033",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "不完全 trace_chain           → HITL 移譲（hitl_elements 設定）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-034",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "循環依存検出                 → HITL 移譲（hitl_elements 設定）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-035",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "cosine 計算失敗              → RuntimeError(__cause__ 保持）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-036",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "抽象語 recommendation        → HITL 移譲（hitl_elements=[\"recommendations\"]）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-037",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "孤立ノード（F10 ツリー）     → WARNING ログ + 処理継続",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-OPR-038",
+        "category": "operational",
+        "source": "summary.log",
+        "cause": "定常運用条件（テスト全件 PASS 環境）",
+        "action": "例外発生後の他モジュール     → 例外影響なし（独立性確認）",
+        "result": "PASS（再現性確認済み）",
+        "pattern_type": "success",
+        "reproducibility": "high"
+      }
+    ],
+    "improvement": [
+      {
+        "entry_id": "LE-IMP-001",
+        "category": "improvement",
+        "source": "FL-001",
+        "module": "F10",
+        "failure_category": "hitl",
+        "description": "曖昧語（など/いろいろ等）を含む入力で HITL が発動",
+        "cause": "goal_text に AMBIGUOUS_WORDS が含まれる",
+        "action": "ユーザーが曖昧語を除去して再入力する",
+        "result": "ユーザーへフィードバック → 入力修正後に再実行",
+        "pattern_type": "failure_resolved",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-IMP-002",
+        "category": "improvement",
+        "source": "FL-002",
+        "module": "F10",
+        "failure_category": "retry_exceeded",
+        "description": "API 呼び出しが MAX_RETRY=3 回失敗し RuntimeError が発生",
+        "cause": "ネットワーク障害または API タイムアウト",
+        "action": "フェイルセーフ発動・エラーを上位に伝播",
+        "result": "パイプライン即時停止 → エラー上位伝播",
+        "pattern_type": "failure_stopped",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-IMP-003",
+        "category": "improvement",
+        "source": "FL-003",
+        "module": "F60",
+        "failure_category": "mece_uncertainty",
+        "description": "cosine 類似度が 0.80〜0.85 の不確実域で HITL_required が発動",
+        "cause": "0.80 ≤ cos ≤ 0.85（重複ではなく不確実）",
+        "action": "HITL 承認後に再処理またはスキップ",
+        "result": "HITL 移譲 → ユーザー承認待ち",
+        "pattern_type": "failure_resolved",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-IMP-004",
+        "category": "improvement",
+        "source": "FL-004",
+        "module": "F80",
+        "failure_category": "trace_chain",
+        "description": "不明な trace_id または循環依存が検出され HITL 移譲",
+        "cause": "trace_chain に存在しない trace_id が参照される",
+        "action": "HITL 移譲・hitl_elements にノードを記録",
+        "result": "HITL 移譲 → ユーザー承認待ち",
+        "pattern_type": "failure_resolved",
+        "reproducibility": "high"
+      },
+      {
+        "entry_id": "LE-IMP-005",
+        "category": "improvement",
+        "source": "FL-005",
+        "module": "F40",
+        "failure_category": "hitl",
+        "description": "タスクリストが空で HITL_required が発動",
+        "cause": "goals が空リスト、または全ゴールが除外された場合",
+        "action": "ユーザーが目的を見直して再入力",
+        "result": "ユーザーへフィードバック → 入力修正後に再実行",
+        "pattern_type": "failure_resolved",
+        "reproducibility": "high"
+      }
+    ],
+    "maintenance": [
+      {
+        "entry_id": "LE-MNT-001",
+        "category": "maintenance",
+        "source": "wbs_history.log",
+        "timestamp": "2026-07-22T20:03:28",
+        "cause": "WBS 構造更新要求（WP9300 初回 WBS 構造生成）",
+        "action": "追加=['Phase1-3', 'Phase4', 'Phase5', 'Phase6', 'Phase6.5', 'Phase7', 'Phase8'] / 削除=なし / 変更=なし",
+        "result": "変更総件数=7件 — wbs_history.log に記録済み",
+        "change_type": "addition",
+        "total_changes": 7,
+        "pattern_type": "maintenance",
+        "reproducibility": "medium"
+      }
+    ],
+    "environment": [
+      {
+        "entry_id": "LE-ENV-001",
+        "category": "environment",
+        "source": "os_update_report.json",
+        "cause": "パッケージ確認: pytest installed=9.1.1 required>=7.0.0",
+        "action": "update_type=optional / status=ok",
+        "result": "status=ok — 全パッケージ正常 — 更新不要",
+        "pattern_type": "environment_check",
+        "reproducibility": "medium"
+      },
+      {
+        "entry_id": "LE-ENV-002",
+        "category": "environment",
+        "source": "os_update_report.json",
+        "cause": "パッケージ確認: pytest-mock installed=3.15.1 required>=3.0.0",
+        "action": "update_type=optional / status=ok",
+        "result": "status=ok — 全パッケージ正常 — 更新不要",
+        "pattern_type": "environment_check",
+        "reproducibility": "medium"
+      },
+      {
+        "entry_id": "LE-ENV-003",
+        "category": "environment",
+        "source": "os_update_report.json",
+        "cause": "パッケージ確認: pyyaml installed=6.0.3 required>=6.0",
+        "action": "update_type=optional / status=ok",
+        "result": "status=ok — 全パッケージ正常 — 更新不要",
+        "pattern_type": "environment_check",
+        "reproducibility": "medium"
+      },
+      {
+        "entry_id": "LE-ENV-004",
+        "category": "environment",
+        "source": "os_update_report.json",
+        "cause": "OS環境確認: Python 3.11.9 / Windows AMD64",
+        "action": "安全性スコア算出: 100/100",
+        "result": "hitl_required=False — 全パッケージ正常 — 更新不要",
+        "pattern_type": "environment_assessment",
+        "reproducibility": "high"
+      }
+    ]
+  },
+  "success_patterns": [
+    {
+      "entry_id": "LE-OPR-001",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F10〜F90 因果構造マップ完全一致",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-002",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "trace_id / source_trace_id チェーン完全性",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-003",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "テンプレート適用（TMP_HIGH/MED/LOW）正確性",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-004",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "estimated_effort → effort 変換境界",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-005",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "MECE 判定閾値（cos=0.85 厳密境界）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-006",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "duplicate-only は HITL を発動しない",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-007",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F60 パススルー同一性",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-008",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F80 hierarchy パススルー同一性",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-009",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "None 入力 → 各モジュール正しい例外クラス",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-010",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F30/F40 が ValueError（field level）を使用",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-011",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F90 が ValueError(tmap) / TypeError(hierarchy) の非対称",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-012",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "RuntimeError.__cause__ 保持（F50/F90）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-013",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "全曖昧語（F10/F20/F30/F50/F60）HITL 発動",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-014",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "承認パス（修正→再実行→hitl=False）動作",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-015",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "HITL 冪等性（同一入力→同一結果）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-016",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F10 API リトライ MAX_RETRY=3 回発動",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-017",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "リトライ間 time.sleep 発動確認",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-018",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "2回目成功時の正常回復",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-019",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "JSONDecodeError → リトライ発動",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-020",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F80 循環依存 → hitl_elements 安全停止",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-021",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F80 不明 trace_chain → HITL 移譲",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-022",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "F90 不完全 traceability → hitl_elements",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-023",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "全モジュール INFO ログ記録",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-024",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "HITL 移譲 WARNING ログ記録",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-025",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "不明 trace_id → WARNING 継続処理",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-026",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "HITL 複数サイクル収束",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-027",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "APIキーは HITL 手動入力（コードに不在）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-028",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "APIキーをログ・出力に表示しない",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-029",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "外部サービス接続は最小権限（全件モック化）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-030",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": ".env ファイルは Git 非コミット（.gitignore 適用済み）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-031",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "全 API リトライ失敗          → RuntimeError 発火・上位伝播",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-032",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "空 tasks/goals 入力          → HITL 移譲（hitl_required=True）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-033",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "不完全 trace_chain           → HITL 移譲（hitl_elements 設定）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-034",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "循環依存検出                 → HITL 移譲（hitl_elements 設定）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-035",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "cosine 計算失敗              → RuntimeError(__cause__ 保持）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-036",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "抽象語 recommendation        → HITL 移譲（hitl_elements=[\"recommendations\"]）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-037",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "孤立ノード（F10 ツリー）     → WARNING ログ + 処理継続",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-OPR-038",
+      "category": "operational",
+      "source": "summary.log",
+      "cause": "定常運用条件（テスト全件 PASS 環境）",
+      "action": "例外発生後の他モジュール     → 例外影響なし（独立性確認）",
+      "result": "PASS（再現性確認済み）",
+      "pattern_type": "success",
+      "reproducibility": "high"
+    }
+  ],
+  "failure_patterns": [
+    {
+      "entry_id": "LE-IMP-001",
+      "category": "improvement",
+      "source": "FL-001",
+      "module": "F10",
+      "failure_category": "hitl",
+      "description": "曖昧語（など/いろいろ等）を含む入力で HITL が発動",
+      "cause": "goal_text に AMBIGUOUS_WORDS が含まれる",
+      "action": "ユーザーが曖昧語を除去して再入力する",
+      "result": "ユーザーへフィードバック → 入力修正後に再実行",
+      "pattern_type": "failure_resolved",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-IMP-002",
+      "category": "improvement",
+      "source": "FL-002",
+      "module": "F10",
+      "failure_category": "retry_exceeded",
+      "description": "API 呼び出しが MAX_RETRY=3 回失敗し RuntimeError が発生",
+      "cause": "ネットワーク障害または API タイムアウト",
+      "action": "フェイルセーフ発動・エラーを上位に伝播",
+      "result": "パイプライン即時停止 → エラー上位伝播",
+      "pattern_type": "failure_stopped",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-IMP-003",
+      "category": "improvement",
+      "source": "FL-003",
+      "module": "F60",
+      "failure_category": "mece_uncertainty",
+      "description": "cosine 類似度が 0.80〜0.85 の不確実域で HITL_required が発動",
+      "cause": "0.80 ≤ cos ≤ 0.85（重複ではなく不確実）",
+      "action": "HITL 承認後に再処理またはスキップ",
+      "result": "HITL 移譲 → ユーザー承認待ち",
+      "pattern_type": "failure_resolved",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-IMP-004",
+      "category": "improvement",
+      "source": "FL-004",
+      "module": "F80",
+      "failure_category": "trace_chain",
+      "description": "不明な trace_id または循環依存が検出され HITL 移譲",
+      "cause": "trace_chain に存在しない trace_id が参照される",
+      "action": "HITL 移譲・hitl_elements にノードを記録",
+      "result": "HITL 移譲 → ユーザー承認待ち",
+      "pattern_type": "failure_resolved",
+      "reproducibility": "high"
+    },
+    {
+      "entry_id": "LE-IMP-005",
+      "category": "improvement",
+      "source": "FL-005",
+      "module": "F40",
+      "failure_category": "hitl",
+      "description": "タスクリストが空で HITL_required が発動",
+      "cause": "goals が空リスト、または全ゴールが除外された場合",
+      "action": "ユーザーが目的を見直して再入力",
+      "result": "ユーザーへフィードバック → 入力修正後に再実行",
+      "pattern_type": "failure_resolved",
+      "reproducibility": "high"
+    }
+  ],
+  "phase8_ready": false
+}

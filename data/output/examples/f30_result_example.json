@@ -1,0 +1,40 @@
+{
+  "trace_id": "F30",
+  "source_trace_id": "F20",
+  "evaluated_goals": [
+    {
+      "element_id": "E1",
+      "text": "売上を伸ばす",
+      "parent": "L1",
+      "score_importance": 0.85,
+      "score_feasibility": 0.5,
+      "priority": "Medium"
+    },
+    {
+      "element_id": "E2",
+      "text": "新規獲得",
+      "parent": "L2",
+      "score_importance": 0.6,
+      "score_feasibility": 0.55,
+      "priority": "Medium"
+    },
+    {
+      "element_id": "E3",
+      "text": "LP作成",
+      "parent": "L3",
+      "score_importance": 0.4,
+      "score_feasibility": 0.75,
+      "priority": "Medium"
+    },
+    {
+      "element_id": "E4",
+      "text": "広告配信",
+      "parent": "L3",
+      "score_importance": 0.4,
+      "score_feasibility": 0.75,
+      "priority": "Medium"
+    }
+  ],
+  "hitl": false,
+  "hitl_elements": []
+}

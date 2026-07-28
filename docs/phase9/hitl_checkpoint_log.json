@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-07-23T14:51:04.558312",
+  "module": "F9610",
+  "phase": 9,
+  "phase9_stage": "integration_design",
+  "total_checkpoints": 3,
+  "checkpoints": [
+    {
+      "stage": "integration_design",
+      "required": true,
+      "status": "pending",
+      "approved_at": null,
+      "set_at": "2026-07-23T14:51:04.558312"
+    },
+    {
+      "stage": "autonomous_operation",
+      "required": true,
+      "status": "pending",
+      "approved_at": null,
+      "f9620_set_at": "2026-07-23T15:19:45.717682"
+    },
+    {
+      "stage": "final_validation",
+      "required": true,
+      "status": "approve",
+      "approved_at": "2026-07-23T15:34:02.095333",
+      "f9630_set_at": "2026-07-23T15:34:02.095333"
+    }
+  ],
+  "current_stage": "final_validation",
+  "overall_ok": true,
+  "system_complete": true
+}

@@ -1,0 +1,139 @@
+# Phase10（運用監視・継続最適化）基本思想（Operation Philosophy）
+# OS 三層構造の最上位レイヤー（思想層）として固定
+# generated_at: 2026-07-23
+
+os_phase: 10
+os_name: operation_monitoring_and_continuous_optimization
+os_layer: philosophy
+version: 1.0
+os_phase10_fixed: true
+operation_philosophy_integrated: true
+
+purpose: >
+  Phase10（運用監視・継続最適化）における AI運用の基本思想を固定し、
+  Claude Code が自律運用を継続する際の判断基準・安全基準・改善基準を明確化する。
+  本思想は OS三層構造（思想／構造／実装）の最上位レイヤーとして扱う。
+
+principles:
+
+  stability_first:
+    priority: 1
+    description: >
+      AI運用において最優先すべきは「安定性」である。
+      エラー率、レイテンシ、rollback発生有無、knowledge_cycle の循環状態を
+      常に監視し、安定稼働を最優先とする。
+    metrics:
+      - error_rate <= 0.01
+      - rollback_count == 0
+      - knowledge_cycle_complete: true
+
+  hitl_continuity:
+    priority: 2
+    description: >
+      Phase1〜9 で確立した HITL（人間承認）思想を運用フェーズでも継続する。
+      重要判断は必ず人間が承認し、自律運用ループの暴走を防止する。
+      再学習方向性・外部API連携・例外処理は HITL を必須とする。
+    required_for:
+      - 再学習方向性の決定
+      - 外部API連携の安全確認
+      - 異常検知時の判断
+      - 最適化閾値の変更
+      - 運用レポートの承認
+
+  continuous_optimization:
+    priority: 3
+    description: >
+      Claude Code は完成後も成長し続ける存在である。
+      knowledge_cycle による継続学習、failure_repository による改善、
+      optimization_report による閾値調整を通じて、運用中も最適化を続ける。
+    cycle:
+      - knowledge_cycle
+      - failure_repository
+      - optimization_report
+
+  transparency:
+    priority: 4
+    description: >
+      AIの判断・ログ・最適化理由は常に可視化する。
+      日次ログ、週次安定性レポート、HITL承認ログ、最適化スコア推移を
+      透明性のある形で記録し、ブラックボックス化を防ぐ。
+    outputs:
+      - daily_operation_log
+      - weekly_stability_report
+      - hitl_operation_log
+      - optimization_trace
+
+  reproducibility:
+    priority: 5
+    description: >
+      再現性は AI運用の信頼性の基盤である。
+      同条件で同じ出力が得られること、sandbox試験で連続成功することを
+      運用フェーズでも必須条件とする。
+    criteria:
+      - sandbox_consecutive_success: 3
+      - same_input_same_output: true
+
+  safety:
+    priority: 6
+    description: >
+      安全性は運用思想の最重要原則である。
+      外部API連携は必ず認証テスト（F10100）を通過し、
+      データ流通は統合アーキテクチャに従い、
+      例外発生時は即 rollback を行い、HITL承認がない限り自律運用を進めない。
+    rules:
+      - external_api_requires_auth_test: F10100
+      - exception_triggers_rollback: true
+      - autonomous_requires_hitl: true
+      - data_flow_follows_unified_architecture: true
+
+hitl_points:
+  - id: H-P10-001
+    trigger: 再学習方向性の決定
+    mandatory: true
+  - id: H-P10-002
+    trigger: 外部API連携の安全確認
+    mandatory: true
+  - id: H-P10-003
+    trigger: 異常検知時の判断
+    mandatory: true
+  - id: H-P10-004
+    trigger: 最適化閾値の変更
+    mandatory: true
+  - id: H-P10-005
+    trigger: 運用レポートの承認
+    mandatory: true
+
+logging:
+  - daily_operation_log
+  - weekly_stability_report
+  - hitl_operation_log
+  - optimization_trace
+  - exception_log
+
+os_structure:
+  layer1_philosophy:
+    file: docs/phase10/os_phase10_philosophy.yaml
+    status: fixed
+  layer2_structure:
+    file: docs/phase10/os_phase10_structure.yaml
+    status: pending
+  layer3_implementation:
+    modules:
+      - F10100  # 外部API認証テスト
+      - F10110  # 日次運用監視
+      - F10120  # 週次安定性レポート
+      - F10130  # 継続最適化サイクル
+      - F10140  # 例外検知・rollback制御
+    status: pending
+
+inheritance:
+  from_phase9:
+    - system_complete_flag
+    - unified_architecture
+    - control_loop_config
+    - autonomous_operation_profile
+    - optimization_report
+  from_phase6:
+    - failure_repository
+  from_phase7:
+    - knowledge_cycle (learning_dataset / learning_patterns / optimization_report)

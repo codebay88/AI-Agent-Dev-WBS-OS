@@ -1,0 +1,1024 @@
+<title>WP8330 本番移行判定レポート — Phase 4 → Phase 5</title>
+<style>
+/* ── TOKEN LAYER ── */
+:root {
+  --ink:        #1C2333;
+  --ink-muted:  #4A5568;
+  --ink-ghost:  #8898AA;
+  --ground:     #F4F6FA;
+  --surface:    #FFFFFF;
+  --border:     #D6DCE8;
+  --accent:     #0B6E55;
+  --accent-b:   #12916E;
+  --accent-dim: #D4EDE7;
+  --warn:       #C4720A;
+  --warn-dim:   #FEF0D9;
+  --pass:       #0B6E55;
+  --pass-dim:   #D4EDE7;
+  --fail:       #B91C1C;
+  --code-bg:    #EDF0F7;
+  --verdict-bg: #0B6E55;
+  --verdict-fg: #FFFFFF;
+  --radius:     3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink:        #DCE3F0;
+    --ink-muted:  #94A3B8;
+    --ink-ghost:  #5A6A82;
+    --ground:     #101826;
+    --surface:    #182030;
+    --border:     #2A3A52;
+    --accent:     #12916E;
+    --accent-b:   #16B88A;
+    --accent-dim: #0D2C23;
+    --warn:       #F59E0B;
+    --warn-dim:   #2A1E04;
+    --pass:       #12916E;
+    --pass-dim:   #0D2C23;
+    --fail:       #EF4444;
+    --code-bg:    #1E2D44;
+    --verdict-bg: #0B6E55;
+    --verdict-fg: #FFFFFF;
+  }
+}
+
+:root[data-theme="light"] {
+  --ink:        #1C2333;
+  --ink-muted:  #4A5568;
+  --ink-ghost:  #8898AA;
+  --ground:     #F4F6FA;
+  --surface:    #FFFFFF;
+  --border:     #D6DCE8;
+  --accent:     #0B6E55;
+  --accent-b:   #12916E;
+  --accent-dim: #D4EDE7;
+  --warn:       #C4720A;
+  --warn-dim:   #FEF0D9;
+  --pass:       #0B6E55;
+  --pass-dim:   #D4EDE7;
+  --fail:       #B91C1C;
+  --code-bg:    #EDF0F7;
+  --verdict-bg: #0B6E55;
+  --verdict-fg: #FFFFFF;
+}
+
+:root[data-theme="dark"] {
+  --ink:        #DCE3F0;
+  --ink-muted:  #94A3B8;
+  --ink-ghost:  #5A6A82;
+  --ground:     #101826;
+  --surface:    #182030;
+  --border:     #2A3A52;
+  --accent:     #12916E;
+  --accent-b:   #16B88A;
+  --accent-dim: #0D2C23;
+  --warn:       #F59E0B;
+  --warn-dim:   #2A1E04;
+  --pass:       #12916E;
+  --pass-dim:   #0D2C23;
+  --fail:       #EF4444;
+  --code-bg:    #1E2D44;
+  --verdict-bg: #0B6E55;
+  --verdict-fg: #FFFFFF;
+}
+
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 32px 16px 64px;
+}
+
+/* ── LAYOUT ── */
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ── HEADER ── */
+.doc-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.doc-eyebrow {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.doc-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+  line-height: 1.3;
+}
+
+.doc-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.doc-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.doc-meta-label {
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-ghost);
+}
+
+.doc-meta-value {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+/* ── VERDICT BAND ── */
+.verdict-band {
+  background: var(--verdict-bg);
+  color: var(--verdict-fg);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.verdict-left {}
+
+.verdict-label {
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 6px;
+}
+
+.verdict-text {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.verdict-sub {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 6px;
+}
+
+.verdict-stats {
+  display: flex;
+  gap: 28px;
+}
+
+.verdict-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.verdict-stat-num {
+  font-family: 'Courier New', monospace;
+  font-size: 32px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.verdict-stat-num.pass  { color: #7EEFD0; }
+.verdict-stat-num.skip  { color: #FCD34D; }
+.verdict-stat-num.fail  { color: #FCA5A5; }
+
+.verdict-stat-label {
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* ── SECTION HEADINGS ── */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.section-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── TEST GRID ── */
+.test-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.test-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.test-card-status {
+  width: 3px;
+  flex-shrink: 0;
+  align-self: stretch;
+  background: var(--pass);
+}
+
+.test-card-status.warn { background: var(--warn); }
+.test-card-status.fail { background: var(--fail); }
+
+.test-card-body { flex: 1; min-width: 0; }
+
+.test-card-wp {
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-ghost);
+  margin-bottom: 2px;
+}
+
+.test-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.test-card-counts {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.count-pass { color: var(--pass); font-weight: 700; }
+.count-skip { color: var(--warn); }
+.count-fail { color: var(--fail); font-weight: 700; }
+.count-label { color: var(--ink-ghost); }
+
+/* ── TABLES ── */
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--surface);
+}
+
+th {
+  background: var(--code-bg);
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+tr:last-child td { border-bottom: none; }
+
+td.mono {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.check-ok   { color: var(--pass); font-weight: 700; }
+.check-warn { color: var(--warn); font-weight: 700; }
+.check-fail { color: var(--fail); font-weight: 700; }
+
+/* ── CHIPS ── */
+.chip {
+  display: inline-block;
+  padding: 2px 7px;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.chip-pass { background: var(--pass-dim); color: var(--pass); }
+.chip-warn { background: var(--warn-dim); color: var(--warn); }
+.chip-fail { background: #FEE2E2; color: var(--fail); }
+
+/* ── FAILSAFE GRID ── */
+.failsafe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+.failsafe-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--pass);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.failsafe-scenario {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.failsafe-result {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+/* ── CONSTRAINTS ── */
+.constraint-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.constraint-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: start;
+}
+
+.constraint-id {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-ghost);
+  white-space: nowrap;
+}
+
+.constraint-text {
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.constraint-phase {
+  font-size: 11px;
+  color: var(--ink-ghost);
+  white-space: nowrap;
+}
+
+/* ── SECURITY ── */
+.security-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.security-row {
+  display: contents;
+}
+
+.security-row > * {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.security-row:last-child > * { border-bottom: none; }
+
+.security-req { color: var(--ink); }
+.security-status { color: var(--pass); font-weight: 700; font-family: 'Courier New', monospace; white-space: nowrap; }
+
+/* ── FINAL STAMP ── */
+.stamp-block {
+  border: 2px solid var(--accent);
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--accent-dim);
+}
+
+.stamp-verdict-line {
+  font-family: 'Courier New', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.stamp-reasons {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.stamp-reason {
+  font-size: 13px;
+  color: var(--ink-muted);
+  padding-left: 14px;
+  position: relative;
+}
+
+.stamp-reason::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--ink-ghost);
+}
+
+.stamp-footer {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stamp-flag {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+.stamp-by {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--ink-ghost);
+}
+
+/* ── NOTE BOX ── */
+.note {
+  font-size: 12px;
+  color: var(--ink-muted);
+  padding: 10px 14px;
+  background: var(--warn-dim);
+  border-left: 3px solid var(--warn);
+}
+
+/* ── SKIP NOTE ── */
+.skip-note {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--warn);
+  margin-top: 6px;
+}
+
+/* ── PHASE5 LIST ── */
+.phase5-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.phase5-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+}
+
+.phase5-item:last-child { border-bottom: none; }
+
+.phase5-num {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-ghost);
+}
+
+.phase5-text { font-size: 13px; color: var(--ink); }
+.phase5-text strong { color: var(--ink); font-weight: 600; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .verdict-band { transition: box-shadow 0.2s; }
+}
+</style>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="doc-header">
+    <div class="doc-eyebrow">Phase 4 → Phase 5 &nbsp;·&nbsp; 正式移行判定記録</div>
+    <h1 class="doc-title">WP8330 本番移行判定レポート</h1>
+    <div class="doc-meta">
+      <div class="doc-meta-item">
+        <span class="doc-meta-label">判定日時</span>
+        <span class="doc-meta-value">2026-07-22</span>
+      </div>
+      <div class="doc-meta-item">
+        <span class="doc-meta-label">対象モジュール</span>
+        <span class="doc-meta-value">F10 → F90（全9モジュール）</span>
+      </div>
+      <div class="doc-meta-item">
+        <span class="doc-meta-label">判定範囲</span>
+        <span class="doc-meta-value">Phase 4 テスト層 8100〜8400番台</span>
+      </div>
+      <div class="doc-meta-item">
+        <span class="doc-meta-label">判定者</span>
+        <span class="doc-meta-value">Claude Code / claude-sonnet-4-6</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- VERDICT -->
+  <div class="verdict-band">
+    <div class="verdict-left">
+      <div class="verdict-label">判定結果</div>
+      <div class="verdict-text">移行可</div>
+      <div class="verdict-sub">Ready for Phase 5 &nbsp;·&nbsp; PHASE 5 移行フラグ: READY</div>
+    </div>
+    <div class="verdict-stats">
+      <div class="verdict-stat">
+        <span class="verdict-stat-num pass">1,067</span>
+        <span class="verdict-stat-label">passed</span>
+      </div>
+      <div class="verdict-stat">
+        <span class="verdict-stat-num skip">1</span>
+        <span class="verdict-stat-label">skipped</span>
+      </div>
+      <div class="verdict-stat">
+        <span class="verdict-stat-num fail">0</span>
+        <span class="verdict-stat-label">failed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST RESULTS GRID -->
+  <section>
+    <div class="section-head">
+      <span class="section-title">テスト層別結果</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="test-grid">
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8100</div>
+          <div class="test-card-name">単体テスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">61</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8110</div>
+          <div class="test-card-name">因果構造テスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">116</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8120</div>
+          <div class="test-card-name">テンプレ適用テスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">154</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8130</div>
+          <div class="test-card-name">MECEチェックテスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">87</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8200</div>
+          <div class="test-card-name">結合テスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">48</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8210</div>
+          <div class="test-card-name">I/O連携テスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">150</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8220</div>
+          <div class="test-card-name">例外処理テスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">131</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8230</div>
+          <div class="test-card-name">HITL承認フローテスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">112</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8300</div>
+          <div class="test-card-name">運用テスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">64</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8310</div>
+          <div class="test-card-name">想定シナリオテスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">64</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status warn"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8320</div>
+          <div class="test-card-name">異常系運用テスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">51</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">1</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+          <div class="skip-note">※ 環境依存スキップ — 安全側</div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-card-status"></div>
+        <div class="test-card-body">
+          <div class="test-card-wp">WP8400</div>
+          <div class="test-card-name">再現性テスト</div>
+          <div class="test-card-counts">
+            <span><span class="count-pass">29</span> <span class="count-label">passed</span></span>
+            <span><span class="count-skip">0</span> <span class="count-label">skip</span></span>
+            <span><span class="count-fail">0</span> <span class="count-label">failed</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="note" style="margin-top: 12px;">
+      WP8320 の skipped 1件: <code>test_f10_prompt_not_found_raises_file_not_found</code> — プロンプトファイルが環境に存在するための条件付きスキップ。FileNotFoundError の発火ロジック自体は実装済み・仕様適合。
+    </div>
+  </section>
+
+  <!-- SAFETY INDICATORS -->
+  <section>
+    <div class="section-head">
+      <span class="section-title">安全性指標チェック（移行基準）</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>検証項目</th>
+            <th>結果</th>
+            <th>根拠テスト</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>F10〜F90 因果構造マップ完全一致</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8110: 116件全通過</td>
+          </tr>
+          <tr>
+            <td>trace_id / source_trace_id チェーン完全性</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8210: F10→F90チェーン検証済み</td>
+          </tr>
+          <tr>
+            <td>テンプレート適用（TMP_HIGH/MED/LOW）正確性</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8120: 154件全通過</td>
+          </tr>
+          <tr>
+            <td>MECE 判定閾値（cos=0.85 厳密境界）</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8130: boundary テスト通過</td>
+          </tr>
+          <tr>
+            <td>duplicate-only は HITL を発動しない</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8130 / WP8230: 確認済み</td>
+          </tr>
+          <tr>
+            <td>F30/F40 が ValueError（field level）を使用</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8220: 仕様書非対称確認済み</td>
+          </tr>
+          <tr>
+            <td>F90 が ValueError(tmap) / TypeError(hierarchy) の非対称</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8220 / WP8310: 確認済み</td>
+          </tr>
+          <tr>
+            <td>RuntimeError.__cause__ 保持（F50/F90）</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8220 / WP8324: 保持確認済み</td>
+          </tr>
+          <tr>
+            <td>全曖昧語（F10/F20/F30/F50/F60）HITL 発動</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8230: 42件パラメトライズ全通過</td>
+          </tr>
+          <tr>
+            <td>HITL 冪等性（同一入力→同一結果）</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8323: 確認済み</td>
+          </tr>
+          <tr>
+            <td>F10 API リトライ MAX_RETRY=3 回発動</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8320: call_count == 3 確認</td>
+          </tr>
+          <tr>
+            <td>全モジュール INFO ログ記録</td>
+            <td class="mono check-ok">✓ PASS</td>
+            <td class="mono">WP8315: "[FXX]" マーカー確認済み</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FAILSAFE -->
+  <section>
+    <div class="section-head">
+      <span class="section-title">フェイルセーフ発動確認</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="failsafe-grid">
+      <div class="failsafe-item">
+        <div class="failsafe-scenario">全 API リトライ失敗</div>
+        <div class="failsafe-result">RuntimeError 発火 → 上位に伝播</div>
+      </div>
+      <div class="failsafe-item">
+        <div class="failsafe-scenario">空 tasks/goals 入力</div>
+        <div class="failsafe-result">HITL 移譲（hitl_required=True）→ 処理継続せず</div>
+      </div>
+      <div class="failsafe-item">
+        <div class="failsafe-scenario">不完全 trace_chain</div>
+        <div class="failsafe-result">HITL 移譲（hitl_elements 設定）→ 最終出力阻止</div>
+      </div>
+      <div class="failsafe-item">
+        <div class="failsafe-scenario">循環依存検出</div>
+        <div class="failsafe-result">HITL 移譲（hitl_elements 設定）→ 最終出力阻止</div>
+      </div>
+      <div class="failsafe-item">
+        <div class="failsafe-scenario">cosine 計算失敗</div>
+        <div class="failsafe-result">RuntimeError(__cause__ 保持）→ 上位に伝播</div>
+      </div>
+      <div class="failsafe-item">
+        <div class="failsafe-scenario">抽象語 recommendation</div>
+        <div class="failsafe-result">HITL 移譲（hitl_elements=["recommendations"]）</div>
+      </div>
+      <div class="failsafe-item">
+        <div class="failsafe-scenario">孤立ノード（F10 ツリー）</div>
+        <div class="failsafe-result">WARNING ログ + 処理継続（非致命的）</div>
+      </div>
+      <div class="failsafe-item">
+        <div class="failsafe-scenario">例外発生後の他モジュール</div>
+        <div class="failsafe-result">例外影響なし（独立性確認済み）</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECURITY -->
+  <section>
+    <div class="section-head">
+      <span class="section-title">セキュリティ要件適合確認</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="security-grid">
+      <div class="security-row">
+        <div class="security-req">APIキーは HITL 手動入力（コードに不在）</div>
+        <div class="security-status">✓ 適合</div>
+      </div>
+      <div class="security-row">
+        <div class="security-req">APIキーをログ・出力に表示しない</div>
+        <div class="security-status">✓ 適合</div>
+      </div>
+      <div class="security-row">
+        <div class="security-req">外部サービス接続は最小権限（全件モック化）</div>
+        <div class="security-status">✓ 適合</div>
+      </div>
+      <div class="security-row">
+        <div class="security-req">.env ファイルは Git 非コミット（.gitignore 適用済み）</div>
+        <div class="security-status">✓ 適合</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSTRAINTS -->
+  <section>
+    <div class="section-head">
+      <span class="section-title">既知の制約事項</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="constraint-list">
+      <div class="constraint-item">
+        <span class="constraint-id">C-01</span>
+        <span class="constraint-text">プロンプトファイル不在テストは環境依存スキップ</span>
+        <span class="constraint-phase">Phase 5 CI で実施</span>
+      </div>
+      <div class="constraint-item">
+        <span class="constraint-id">C-02</span>
+        <span class="constraint-text">F10 API 実呼び出しは全テストでモック化（APIキー不使用）</span>
+        <span class="constraint-phase">運用時 HITL 手動入力</span>
+      </div>
+      <div class="constraint-item">
+        <span class="constraint-id">C-03</span>
+        <span class="constraint-text">実行時間依存テストなし（time.sleep は全件モック）</span>
+        <span class="constraint-phase">設計維持</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHASE 5 PREP -->
+  <section>
+    <div class="section-head">
+      <span class="section-title">Phase 5 移行準備事項</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="phase5-list">
+      <div class="phase5-item">
+        <span class="phase5-num">1</span>
+        <span class="phase5-text"><strong>CI/CD 環境整備</strong> — テストスイート（1,068件）を CI パイプラインに組み込むこと</span>
+      </div>
+      <div class="phase5-item">
+        <span class="phase5-num">2</span>
+        <span class="phase5-text"><strong>プロンプトファイル管理</strong> — F10 system_prompt ファイルのバージョン管理体制を確立すること</span>
+      </div>
+      <div class="phase5-item">
+        <span class="phase5-num">3</span>
+        <span class="phase5-text"><strong>API キー管理</strong> — 運用環境での HITL 手動入力フローを文書化すること</span>
+      </div>
+      <div class="phase5-item">
+        <span class="phase5-num">4</span>
+        <span class="phase5-text"><strong>ログ監視設定</strong> — WARNING/ERROR ログの監視アラートを設定すること</span>
+      </div>
+      <div class="phase5-item">
+        <span class="phase5-num">5</span>
+        <span class="phase5-text"><strong>リトライ遅延調整</strong> — 本番環境の通信特性に合わせ RETRY_DELAYS を調整すること</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL STAMP -->
+  <section>
+    <div class="section-head">
+      <span class="section-title">最終判定</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="stamp-block">
+      <div class="stamp-verdict-line">判定結果: 移行可（Ready for Phase 5）</div>
+      <div class="stamp-reasons">
+        <div class="stamp-reason">Phase 4 全テスト 1,067 件 passed / 0 件 failed</div>
+        <div class="stamp-reason">1 件 skipped は環境依存の安全側スキップ（実装は仕様適合）</div>
+        <div class="stamp-reason">全安全性指標 100% 充足</div>
+        <div class="stamp-reason">フェイルセーフ全シナリオ正常発動確認</div>
+        <div class="stamp-reason">セキュリティ要件全件適合</div>
+        <div class="stamp-reason">HITL 承認フロー・再承認フロー完全動作確認</div>
+        <div class="stamp-reason">運用ログ完全記録・再現性保証確認</div>
+      </div>
+      <div class="stamp-footer">
+        <span class="stamp-flag">Phase 5 移行フラグ: READY ✓</span>
+        <span class="stamp-by">判定者: Claude Code WP8330 &nbsp;·&nbsp; 2026-07-22</span>
+      </div>
+    </div>
+  </section>
+
+</div>

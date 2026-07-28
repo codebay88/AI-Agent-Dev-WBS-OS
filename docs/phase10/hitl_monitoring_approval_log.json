@@ -1,0 +1,15 @@
+{
+  "module": "F10110",
+  "hitl_point_id": "H-P10-003",
+  "trigger": "異常検知時の判断",
+  "mandatory": true,
+  "decision": "approve",
+  "decided_at": "2026-07-23T19:56:14.754741",
+  "context": {
+    "stability_index": 0.9688,
+    "stability_ok": true,
+    "reproducibility_rate": 1.0,
+    "phase10_stage_before": "daily_monitoring_pending_hitl",
+    "phase10_stage_after": "daily_monitoring_verified"
+  }
+}

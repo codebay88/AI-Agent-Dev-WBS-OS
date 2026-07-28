@@ -1,0 +1,134 @@
+{
+  "generated_at": "2026-07-23T15:19:45.700978",
+  "module": "F9620",
+  "phase": 9,
+  "phase9_stage": "autonomous_operation",
+  "loops": [
+    {
+      "loop_id": "L-001",
+      "name": "WBS 生成ループ",
+      "agent": "AIWBS",
+      "trigger": "goal_text 入力",
+      "modules": [
+        "F10",
+        "F20",
+        "F30",
+        "F40",
+        "F50",
+        "F60",
+        "F70",
+        "F80",
+        "F90"
+      ],
+      "exit_cond": "wbs_structure 出力 or HITL 移譲",
+      "feedback": "failure_repository → F10 HITL 辞書",
+      "max_iter": 5
+    },
+    {
+      "loop_id": "L-002",
+      "name": "展開・安定化ループ",
+      "agent": "SUPPORT",
+      "trigger": "learning_dataset.json 更新",
+      "modules": [
+        "F9510",
+        "F9520",
+        "F9530"
+      ],
+      "exit_cond": "phase8_complete=True or rollback",
+      "feedback": "optimization_report → 閾値自動調整",
+      "max_iter": 3
+    },
+    {
+      "loop_id": "L-003",
+      "name": "知識循環ループ",
+      "agent": "knowledge_cycle",
+      "trigger": "WBS 生成完了 / 展開完了",
+      "modules": [
+        "KnowledgeCycle",
+        "LearningDatasetBuilder",
+        "OptimizationEvaluator"
+      ],
+      "exit_cond": "phase7_ready=True",
+      "feedback": "learning_patterns → AIWBS / SUPPORT",
+      "max_iter": 1
+    }
+  ],
+  "loop_count": 3,
+  "hitl_points": [
+    {
+      "id": "H-001",
+      "agent": "AIWBS",
+      "trigger": "曖昧語検出",
+      "loop": "L-001",
+      "action": "ユーザー入力要求"
+    },
+    {
+      "id": "H-002",
+      "agent": "AIWBS",
+      "trigger": "MECE 不確実域",
+      "loop": "L-001",
+      "action": "承認 or 再実行"
+    },
+    {
+      "id": "H-003",
+      "agent": "SUPPORT",
+      "trigger": "F9510 計画レビュー",
+      "loop": "L-002",
+      "action": "HITL 承認"
+    },
+    {
+      "id": "H-004",
+      "agent": "SUPPORT",
+      "trigger": "F9520 統合レビュー",
+      "loop": "L-002",
+      "action": "HITL 承認"
+    },
+    {
+      "id": "H-005",
+      "agent": "SUPPORT",
+      "trigger": "F9530 最終承認",
+      "loop": "L-002",
+      "action": "HITL 承認"
+    },
+    {
+      "id": "H-006",
+      "agent": "BOTH",
+      "trigger": "異常検知 / ERROR累積",
+      "loop": "ALL",
+      "action": "即時停止 + HITL 移譲"
+    }
+  ],
+  "hitl_flow_defined": true,
+  "autonomy_rules": [
+    {
+      "rule_id": "AR-001",
+      "desc": "ERROR が1件でも発生した場合は即時 HITL 移譲（自律判断禁止）"
+    },
+    {
+      "rule_id": "AR-002",
+      "desc": "HITL 移譲後30秒以内に応答がない場合はパイプラインを一時停止"
+    },
+    {
+      "rule_id": "AR-003",
+      "desc": "承認率が 90% を超えた場合は誤承認警告を出力"
+    },
+    {
+      "rule_id": "AR-004",
+      "desc": "MAX_RETRY=3 超過時は RuntimeError + 自律運用停止"
+    }
+  ],
+  "knowledge_cycle_linked": true,
+  "failure_repo_linked": true,
+  "thresholds": {
+    "opt_score_min": 0.9,
+    "io_integrity_min": 0.98,
+    "error_rate_max": 0.01,
+    "hitl_approval_rate_max": 0.9,
+    "max_retry": 3,
+    "max_loops": 3,
+    "current_opt_score": 0.9119
+  },
+  "control_loop_config_consistent": true,
+  "shared_store": "docs/knowledge_cycle/",
+  "log_target": "docs/phase4/logs/summary.log"
+}

@@ -1,0 +1,40 @@
+{
+  "module": "F10100",
+  "generated_at": "2026-07-23T19:42:24.316280",
+  "steps": [
+    {
+      "step": "step1_check_env_key",
+      "at": "2026-07-23T19:42:24.316280",
+      "key_present": true
+    },
+    {
+      "step": "step2_send_ping",
+      "at": "2026-07-23T19:42:24.316280",
+      "mode": "mock",
+      "result": {
+        "status": "authenticated",
+        "latency": 0.312,
+        "error_count": 0
+      }
+    },
+    {
+      "step": "step3_determine_status",
+      "at": "2026-07-23T19:42:24.316280",
+      "auth_status": "authenticated"
+    },
+    {
+      "step": "step4_check_latency",
+      "at": "2026-07-23T19:42:24.316280",
+      "latency": 0.312,
+      "threshold": 2.0,
+      "ok": true,
+      "warning": false
+    },
+    {
+      "step": "step5_verify_error_count",
+      "at": "2026-07-23T19:42:24.316280",
+      "error_count": 0,
+      "ok": true
+    }
+  ]
+}

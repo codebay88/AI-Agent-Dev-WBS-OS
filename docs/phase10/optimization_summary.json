@@ -1,0 +1,13 @@
+{
+  "module": "F10120",
+  "generated_at": "2026-07-23T20:05:11.573976",
+  "weekly_index": 0.97,
+  "avg_error_rate": 0.0,
+  "avg_latency": 0.312,
+  "reproducibility_rate": 1.0,
+  "proposals": [
+    "no_action_required_system_stable"
+  ],
+  "relearning_candidate": false,
+  "next_module": "F10130"
+}

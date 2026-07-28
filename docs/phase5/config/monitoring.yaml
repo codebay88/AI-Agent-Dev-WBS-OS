@@ -1,0 +1,73 @@
+---
+version: "1.0"
+phase: 5
+wp: WP9100
+description: "Phase 5 初期監視設定 — F10〜F90 全モジュール対象"
+configured_at: "2026-07-22"
+
+# ── 監視対象モジュール ──────────────────────────────────────
+modules:
+  - src.agents.f10_module
+  - src.agents.f20_module
+  - src.agents.f30_module
+  - src.agents.f40_module
+  - src.agents.f50_module
+  - src.agents.f60_module
+  - src.agents.f70_module
+  - src.agents.f80_module
+  - src.agents.f90_module
+
+# ── アラートルール ──────────────────────────────────────────
+alert_rules:
+  error:
+    level: ERROR
+    threshold: 1
+    notify: immediate
+    description: "ERROR ログ — 即時通知"
+
+  warning:
+    level: WARNING
+    consecutive_threshold: 5
+    notify: on_threshold
+    description: "WARNING 5件連続で通知"
+
+  retry:
+    level: WARNING
+    patterns: ["リトライ", "retry", "RETRY"]
+    consecutive_threshold: 3
+    notify: on_threshold
+    description: "RETRY 3回連続で通知"
+
+  hitl:
+    level: WARNING
+    patterns: ["HITL", "HITL移譲"]
+    delay_threshold_seconds: 30
+    notify: on_delay
+    description: "HITL承認遅延が30秒を超えた場合通知"
+
+# ── HITL承認履歴監視 ────────────────────────────────────────
+hitl_tracking:
+  enabled: true
+  decisions:
+    - approve
+    - reject
+    - reprocess
+  approval_rate_warning_threshold: 0.90   # 承認率90%超で警告
+  daily_aggregation: true
+  daily_output: docs/phase5/logs/monitoring.log
+
+# ── フェイルセーフ監視 ──────────────────────────────────────
+failsafe_monitoring:
+  enabled: true
+  track_fields:
+    - trace_id
+    - source_trace_id
+    - estimated_effort
+  max_retry_exceeded_warning: true
+  max_retry_threshold: 3
+
+# ── 出力設定 ────────────────────────────────────────────────
+output:
+  summary_log: docs/phase4/logs/summary.log
+  phase5_log:  docs/phase5/logs/monitoring.log
+  append_mode: true

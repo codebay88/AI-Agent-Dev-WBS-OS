@@ -1,0 +1,14 @@
+{
+  "module": "F10100",
+  "hitl_point_id": "H-P10-002",
+  "trigger": "外部API連携の安全確認",
+  "mandatory": true,
+  "decision": "approve",
+  "decided_at": "2026-07-23T19:42:24.316280",
+  "context": {
+    "auth_status": "authenticated",
+    "latency_warning": false,
+    "phase10_stage_before": "api_verified_pending_hitl",
+    "phase10_stage_after": "api_verified"
+  }
+}

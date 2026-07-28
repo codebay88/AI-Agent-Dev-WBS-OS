@@ -1,0 +1,17 @@
+{
+  "module": "F10140",
+  "hitl_point_id": "H-P10-003",
+  "trigger": "異常検知時の判断",
+  "mandatory": true,
+  "decision": "approve",
+  "decided_at": "2026-07-23T20:28:29.185130",
+  "context": {
+    "anomalies_count": 0,
+    "rollback_executed": false,
+    "rollback_strategy": "none",
+    "last_stable_state_restored": true,
+    "error_count_after_rollback": 0,
+    "phase10_stage_before": "safety_reapproval_pending_hitl",
+    "phase10_stage_after": "safety_reapproved"
+  }
+}

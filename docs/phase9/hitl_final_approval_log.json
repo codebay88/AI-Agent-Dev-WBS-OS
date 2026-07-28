@@ -1,0 +1,53 @@
+{
+  "generated_at": "2026-07-23T15:34:02.095333",
+  "module": "F9630",
+  "phase9_stage": "final_validation",
+  "approvals": [
+    {
+      "id": "H-001",
+      "agent": "AIWBS",
+      "desc": "曖昧語検出 — ユーザー入力要求",
+      "decision": "approve",
+      "decided_at": "2026-07-23T15:34:02.079976"
+    },
+    {
+      "id": "H-002",
+      "agent": "AIWBS",
+      "desc": "MECE 不確実域 — 承認 or 再実行",
+      "decision": "approve",
+      "decided_at": "2026-07-23T15:34:02.079976"
+    },
+    {
+      "id": "H-003",
+      "agent": "SUPPORT",
+      "desc": "F9510 計画レビュー — HITL 承認",
+      "decision": "approve",
+      "decided_at": "2026-07-23T15:34:02.079976"
+    },
+    {
+      "id": "H-004",
+      "agent": "SUPPORT",
+      "desc": "F9520 統合レビュー — HITL 承認",
+      "decision": "approve",
+      "decided_at": "2026-07-23T15:34:02.079976"
+    },
+    {
+      "id": "H-005",
+      "agent": "SUPPORT",
+      "desc": "F9530 最終承認 — HITL 承認",
+      "decision": "approve",
+      "decided_at": "2026-07-23T15:34:02.079976"
+    },
+    {
+      "id": "H-006",
+      "agent": "BOTH",
+      "desc": "異常検知 / ERROR累積 — 即時停止",
+      "decision": "approve",
+      "decided_at": "2026-07-23T15:34:02.079976"
+    }
+  ],
+  "approved_count": 6,
+  "rejected_count": 0,
+  "all_approved": true,
+  "total_points": 6
+}

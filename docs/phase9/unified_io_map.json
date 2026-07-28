@@ -1,0 +1,133 @@
+{
+  "generated_at": "2026-07-23T14:51:04.558312",
+  "module": "F9610",
+  "io_entries": [
+    {
+      "agent": "AIWBS",
+      "direction": "input",
+      "artifact": "goal_text",
+      "source": "external / hitl",
+      "verified": true
+    },
+    {
+      "agent": "AIWBS",
+      "direction": "input",
+      "artifact": "hitl_decisions",
+      "source": "external / hitl",
+      "verified": true
+    },
+    {
+      "agent": "AIWBS",
+      "direction": "output",
+      "artifact": "wbs_structure",
+      "sink": "knowledge_cycle / user",
+      "verified": true
+    },
+    {
+      "agent": "AIWBS",
+      "direction": "output",
+      "artifact": "traceability_map",
+      "sink": "knowledge_cycle / user",
+      "verified": true
+    },
+    {
+      "agent": "AIWBS",
+      "direction": "output",
+      "artifact": "mece_report",
+      "sink": "knowledge_cycle / user",
+      "verified": true
+    },
+    {
+      "agent": "SUPPORT",
+      "direction": "input",
+      "artifact": "learning_dataset.json",
+      "source": "knowledge_cycle / phase8",
+      "verified": true
+    },
+    {
+      "agent": "SUPPORT",
+      "direction": "input",
+      "artifact": "learning_patterns.json",
+      "source": "knowledge_cycle / phase8",
+      "verified": true
+    },
+    {
+      "agent": "SUPPORT",
+      "direction": "input",
+      "artifact": "optimization_report.json",
+      "source": "knowledge_cycle / phase8",
+      "verified": true
+    },
+    {
+      "agent": "SUPPORT",
+      "direction": "input",
+      "artifact": "failure_repository.json",
+      "source": "knowledge_cycle / phase8",
+      "verified": true
+    },
+    {
+      "agent": "SUPPORT",
+      "direction": "output",
+      "artifact": "deployment_plan.json",
+      "sink": "docs/phase8",
+      "verified": true
+    },
+    {
+      "agent": "SUPPORT",
+      "direction": "output",
+      "artifact": "integration_report.json",
+      "sink": "docs/phase8",
+      "verified": true
+    },
+    {
+      "agent": "SUPPORT",
+      "direction": "output",
+      "artifact": "stability_report.json",
+      "sink": "docs/phase8",
+      "verified": true
+    },
+    {
+      "agent": "SUPPORT",
+      "direction": "output",
+      "artifact": "deployment_summary.json",
+      "sink": "docs/phase8",
+      "verified": true
+    },
+    {
+      "agent": "data_flow",
+      "direction": "transfer",
+      "artifact": "learning_dataset.json",
+      "source": "AIWBS (F90)",
+      "sink": "knowledge_cycle",
+      "verified": true
+    },
+    {
+      "agent": "data_flow",
+      "direction": "transfer",
+      "artifact": "learning_patterns.json",
+      "source": "knowledge_cycle",
+      "sink": "SUPPORT (F9510)",
+      "verified": true
+    },
+    {
+      "agent": "data_flow",
+      "direction": "transfer",
+      "artifact": "optimization_report.json",
+      "source": "SUPPORT (F9530)",
+      "sink": "knowledge_cycle",
+      "verified": true
+    },
+    {
+      "agent": "data_flow",
+      "direction": "transfer",
+      "artifact": "failure_repository.json",
+      "source": "knowledge_cycle",
+      "sink": "AIWBS (F10〜F90)",
+      "verified": true
+    }
+  ],
+  "total_entries": 17,
+  "verified": 17,
+  "io_integrity": 1.0,
+  "io_ok": true
+}

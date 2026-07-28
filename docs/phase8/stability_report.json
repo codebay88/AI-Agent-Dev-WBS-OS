@@ -1,0 +1,75 @@
+{
+  "generated_at": "2026-07-23T14:36:39.802269",
+  "module": "F9530",
+  "function": "deployment_test_and_stabilization",
+  "phase": 8,
+  "success": true,
+  "load_test": {
+    "requests_sent": 10,
+    "requests_ok": 10,
+    "error_count": 0,
+    "error_rate": 0.0,
+    "avg_response_sec": 0.5,
+    "io_integrity": 1.0,
+    "load_test_passed": true
+  },
+  "exception_monitor": {
+    "exception_detected": false,
+    "exception_count": 0,
+    "exception_entries": [],
+    "monitoring_ok": true
+  },
+  "reproducibility": {
+    "passed": true,
+    "trials": [
+      {
+        "trial": 1,
+        "passed": true
+      },
+      {
+        "trial": 2,
+        "passed": true
+      },
+      {
+        "trial": 3,
+        "passed": true
+      }
+    ],
+    "trial_count": 3,
+    "repro_rate": 1.0
+  },
+  "stability": {
+    "error_rate": 0.0,
+    "opt_score": 0.9119,
+    "log_completeness": 1.0,
+    "stability_status": "stable",
+    "criteria_met": {
+      "io_integrity": true,
+      "error_rate": true,
+      "opt_score": true,
+      "reproducibility_passed": true,
+      "no_exception": true
+    },
+    "overall_ok": true
+  },
+  "hitl_checkpoint": {
+    "stage": "full_deployment",
+    "status": "approve",
+    "set_at": "2026-07-23T14:36:39.800251"
+  },
+  "stability_log": [
+    "[2026-07-23T14:36:39.796214] Step1: loaded 4/4 inputs (missing=[])",
+    "[2026-07-23T14:36:39.796214] Step2: load_test requests=10 ok=10 err=0 io=1.0000 err_rate=0.0000 avg_resp=0.5s passed=True",
+    "[2026-07-23T14:36:39.796214] Step3: monitoring_ok=True exceptions=0",
+    "[2026-07-23T14:36:39.796214] Step4: repro_trial_1=PASS",
+    "[2026-07-23T14:36:39.796214] Step4: repro_trial_2=PASS",
+    "[2026-07-23T14:36:39.796214] Step4: repro_trial_3=PASS",
+    "[2026-07-23T14:36:39.796214] Step4: reproducibility_test=PASSED (3/3)",
+    "[2026-07-23T14:36:39.796214] Step5: opt_score=0.9119",
+    "[2026-07-23T14:36:39.798232] Step5: log_completeness=1.0000",
+    "[2026-07-23T14:36:39.798232] Step5: stability_status=stable all_met=True",
+    "[2026-07-23T14:36:39.800251] Step6: HITL final approval checkpoint set for full_deployment",
+    "[2026-07-23T14:36:39.800251] Step6: HITL decision=approve"
+  ],
+  "exception_log": []
+}

@@ -1,0 +1,10 @@
+{
+  "module": "F10140",
+  "name": "exception_detection_and_rollback_control",
+  "generated_at": "2026-07-23T20:28:29.179673",
+  "anomalies_detected": [],
+  "post_optimization_exceptions": [],
+  "exception_patterns": [],
+  "exception_detection_completed": true,
+  "hitl_point": "H-P10-003"
+}

@@ -1,0 +1,15 @@
+{
+  "module": "F10120",
+  "hitl_point_id": "H-P10-005",
+  "trigger": "運用レポートの承認",
+  "mandatory": true,
+  "decision": "approve",
+  "decided_at": "2026-07-23T20:05:11.573976",
+  "context": {
+    "weekly_stability_index": 0.97,
+    "weekly_stability_ok": true,
+    "reproducibility_rate": 1.0,
+    "phase10_stage_before": "weekly_stability_pending_hitl",
+    "phase10_stage_after": "weekly_stability_verified"
+  }
+}

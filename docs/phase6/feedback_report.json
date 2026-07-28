@@ -1,0 +1,10 @@
+{
+  "collected_at": "2026-07-22T17:19:55.861513",
+  "anomaly_trends": [],
+  "approval_rate": 0.0,
+  "retry_rate": 0.0,
+  "failsafe_rate": 0.0,
+  "misapproval_warning": false,
+  "improvement_targets": [],
+  "phase6_ready": true
+}

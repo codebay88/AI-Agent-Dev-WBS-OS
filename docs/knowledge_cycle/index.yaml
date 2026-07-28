@@ -1,0 +1,55 @@
+generated_at: '2026-07-22T20:20:43.736036'
+total_phases: 3
+all_ok: true
+phases:
+  Phase5:
+    status: ok
+    present: 6
+    total: 6
+  Phase6:
+    status: ok
+    present: 7
+    total: 7
+  Phase6.5:
+    status: ok
+    present: 5
+    total: 5
+dependency_graph:
+  Phase1-3:
+    depends_on: []
+    required_by:
+    - Phase4
+  Phase4:
+    depends_on:
+    - Phase1-3
+    required_by:
+    - Phase5
+  Phase5:
+    depends_on:
+    - Phase4
+    required_by:
+    - Phase6
+    - Phase6.5
+  Phase6:
+    depends_on:
+    - Phase5
+    required_by:
+    - Phase6.5
+    - Phase7
+  Phase6.5:
+    depends_on:
+    - Phase5
+    - Phase6
+    required_by:
+    - Phase7
+  Phase7:
+    depends_on:
+    - Phase6
+    - Phase6.5
+    required_by:
+    - Phase8
+  Phase8:
+    depends_on:
+    - Phase7
+    required_by: []
+phase7_ready: true

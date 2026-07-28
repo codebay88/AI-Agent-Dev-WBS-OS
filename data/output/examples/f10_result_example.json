@@ -1,0 +1,46 @@
+{
+  "trace_id": "F10",
+  "hitl": false,
+  "goal": {
+    "L1": "売上を伸ばす",
+    "L2": [
+      "新規獲得"
+    ],
+    "L3": [
+      "LP作成",
+      "広告配信"
+    ]
+  },
+  "tree": {
+    "L1-0644d1": {
+      "objective_id": "L1-0644d1",
+      "objective_text": "売上を伸ばす",
+      "level": "L1",
+      "parent_id": null,
+      "children": [
+        {
+          "objective_id": "L2-a0ccd4",
+          "objective_text": "新規獲得",
+          "level": "L2",
+          "parent_id": "L1-0644d1",
+          "children": [
+            {
+              "objective_id": "L3-6e4c7a",
+              "objective_text": "LP作成",
+              "level": "L3",
+              "parent_id": "L2-a0ccd4",
+              "children": []
+            },
+            {
+              "objective_id": "L3-785ad1",
+              "objective_text": "広告配信",
+              "level": "L3",
+              "parent_id": "L2-a0ccd4",
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

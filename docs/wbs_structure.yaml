@@ -1,0 +1,106 @@
+# WBS構造定義ファイル — Phase 1〜8
+# WBSTracker（WP9310）が管理する。手動編集禁止。
+# 更新履歴: docs/wbs_history.log を参照
+
+version: "1.0.0"
+last_updated: "2026-07-22"
+created_by: WP9300
+
+phases:
+  - id: Phase1-3
+    name: 実装層
+    status: completed
+    description: F10〜F90 モジュール実装
+    wps:
+      - WP1000-WP3999
+
+  - id: Phase4
+    name: テスト層
+    status: locked
+    description: WP8110〜WP8330 — 変更禁止
+    wps:
+      - WP8110
+      - WP8120
+      - WP8130
+      - WP8200
+      - WP8210
+      - WP8220
+      - WP8230
+      - WP8300
+      - WP8310
+      - WP8320
+      - WP8400
+      - WP8330
+    artifacts:
+      - docs/phase4/INDEX.md
+      - docs/phase4/reports/wp8330_report.html
+      - docs/phase4/logs/summary.log
+
+  - id: Phase5
+    name: 運用層
+    status: active
+    description: WP9100〜9130 監視・HITL・ログ確認
+    wps:
+      - WP9100
+      - WP9110
+      - WP9120
+      - WP9130
+    artifacts:
+      - src/monitoring/monitor.py
+      - src/monitoring/hitl_tracker.py
+      - src/monitoring/hitl_approval.py
+      - src/monitoring/daily_operation.py
+      - src/monitoring/log_review.py
+      - docs/phase5/config/monitoring.yaml
+
+  - id: Phase6
+    name: 改善層
+    status: active
+    description: WP9210〜9230 フィードバック・テンプレ・失敗知識
+    wps:
+      - WP9210
+      - WP9220
+      - WP9230
+    artifacts:
+      - src/improvement/feedback_collector.py
+      - src/improvement/template_optimizer.py
+      - src/knowledge/failure_repository.py
+      - src/config/thresholds.yaml
+      - src/templates/template_index.yaml
+      - docs/phase6/feedback_report.json
+      - docs/phase6/failure_repository.json
+
+  - id: Phase6.5
+    name: 基盤維持層
+    status: active
+    description: WP9300〜9320 WBS更新・OS更新判断
+    wps:
+      - WP9300
+      - WP9310
+      - WP9320
+    artifacts:
+      - docs/wbs_structure.yaml
+      - docs/wbs_history.log
+      - src/management/wbs_tracker.py
+      - src/system/os_update_checker.py
+      - docs/system/os_update_report.json
+
+  - id: Phase7
+    name: 学習層
+    status: planned
+    description: 失敗知識・防止パターンの自律学習サイクル
+    wps: []
+    depends_on:
+      - Phase6
+      - Phase6.5
+    inputs:
+      - docs/phase6/failure_repository.json
+      - docs/phase6/feedback_report.json
+
+  - id: Phase8
+    name: 展開層
+    status: planned
+    description: 本番展開・継続運用・外部連携
+    wps: []
+    depends_on:
+      - Phase7

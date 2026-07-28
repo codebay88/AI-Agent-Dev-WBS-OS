@@ -1,0 +1,14 @@
+{
+  "module": "F10130",
+  "hitl_point_id": "H-P10-004",
+  "trigger": "最適化閾値の変更",
+  "mandatory": true,
+  "decision": "approve",
+  "decided_at": "2026-07-23T20:13:13.779464",
+  "context": {
+    "threshold_changes": [],
+    "threshold_valid": true,
+    "phase10_stage_before": "optimization_cycle_pending_hitl",
+    "phase10_stage_after": "optimization_cycle_verified"
+  }
+}

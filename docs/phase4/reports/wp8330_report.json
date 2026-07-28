@@ -1,0 +1,105 @@
+{
+  "report_id": "WP8330",
+  "title": "本番移行判定レポート",
+  "subtitle": "Phase 4 → Phase 5 Production Transition Evaluation",
+  "generated_at": "2026-07-22",
+  "target_modules": ["F10","F20","F30","F40","F50","F60","F70","F80","F90"],
+  "environment": {
+    "platform": "win32",
+    "python": "3.11.9",
+    "pytest": "9.1.1",
+    "pytest_mock": "3.15.1"
+  },
+  "verdict": {
+    "result": "移行可",
+    "result_en": "Ready for Phase 5",
+    "phase5_ready_flag": true,
+    "total_tests": 1068,
+    "passed": 1067,
+    "skipped": 1,
+    "failed": 0,
+    "pass_rate": 99.9
+  },
+  "test_results": [
+    { "wp": "WP8100", "file": "test_8100_unit.py",                    "category": "単体テスト",            "passed": 61,  "skipped": 0, "failed": 0 },
+    { "wp": "WP8110", "file": "test_8110_causal.py",                  "category": "因果構造テスト",        "passed": 116, "skipped": 0, "failed": 0 },
+    { "wp": "WP8120", "file": "test_8120_template.py",                "category": "テンプレ適用テスト",    "passed": 154, "skipped": 0, "failed": 0 },
+    { "wp": "WP8130", "file": "test_8130_mece.py",                    "category": "MECEチェックテスト",    "passed": 87,  "skipped": 0, "failed": 0 },
+    { "wp": "WP8200", "file": "test_8200_integration.py",             "category": "結合テスト",            "passed": 48,  "skipped": 0, "failed": 0 },
+    { "wp": "WP8210", "file": "test_8210_io.py",                      "category": "I/O連携テスト",         "passed": 150, "skipped": 0, "failed": 0 },
+    { "wp": "WP8220", "file": "test_8220_exception.py",               "category": "例外処理テスト",        "passed": 131, "skipped": 0, "failed": 0 },
+    { "wp": "WP8230", "file": "test_8230_hitl.py",                    "category": "HITL承認フローテスト",  "passed": 112, "skipped": 0, "failed": 0 },
+    { "wp": "WP8300", "file": "test_8300_operational.py",             "category": "運用テスト",            "passed": 64,  "skipped": 0, "failed": 0 },
+    { "wp": "WP8310", "file": "test_8310_scenario.py",                "category": "想定シナリオテスト",    "passed": 64,  "skipped": 0, "failed": 0 },
+    { "wp": "WP8320", "file": "test_8320_operational_exception.py",   "category": "異常系運用テスト",      "passed": 51,  "skipped": 1, "failed": 0 },
+    { "wp": "WP8400", "file": "test_8400_reproducibility.py",         "category": "再現性テスト",          "passed": 29,  "skipped": 0, "failed": 0 }
+  ],
+  "skipped_detail": [
+    {
+      "wp": "WP8320",
+      "test_id": "test_f10_prompt_not_found_raises_file_not_found",
+      "reason": "プロンプトファイルが環境に存在するための条件付きスキップ",
+      "classification": "環境依存・安全側スキップ",
+      "constraint_ref": "C-01"
+    }
+  ],
+  "safety_indicators": {
+    "all_pass": true,
+    "items": [
+      { "check": "F10〜F90 因果構造マップ完全一致",                         "result": "PASS", "evidence": "WP8110: 116件全通過" },
+      { "check": "trace_id / source_trace_id チェーン完全性",               "result": "PASS", "evidence": "WP8210: F10→F90チェーン検証済み" },
+      { "check": "テンプレート適用（TMP_HIGH/MED/LOW）正確性",              "result": "PASS", "evidence": "WP8120: 154件全通過" },
+      { "check": "MECE 判定閾値（cos=0.85 厳密境界）",                      "result": "PASS", "evidence": "WP8130: boundary テスト通過" },
+      { "check": "duplicate-only は HITL を発動しない",                      "result": "PASS", "evidence": "WP8130/WP8230: 確認済み" },
+      { "check": "F30/F40 が ValueError（field level）を使用",              "result": "PASS", "evidence": "WP8220: 仕様書非対称確認済み" },
+      { "check": "F90 が ValueError(tmap)/TypeError(hierarchy) の非対称",   "result": "PASS", "evidence": "WP8220/WP8310: 確認済み" },
+      { "check": "RuntimeError.__cause__ 保持（F50/F90）",                  "result": "PASS", "evidence": "WP8220/WP8324: 保持確認済み" },
+      { "check": "全曖昧語（F10/F20/F30/F50/F60）HITL 発動",               "result": "PASS", "evidence": "WP8230: 42件パラメトライズ全通過" },
+      { "check": "HITL 冪等性（同一入力→同一結果）",                        "result": "PASS", "evidence": "WP8323: 確認済み" },
+      { "check": "F10 API リトライ MAX_RETRY=3 回発動",                     "result": "PASS", "evidence": "WP8320: call_count == 3 確認" },
+      { "check": "全モジュール INFO ログ記録",                               "result": "PASS", "evidence": "WP8315: [FXX] マーカー確認済み" }
+    ]
+  },
+  "failsafe_verification": {
+    "all_pass": true,
+    "scenarios": [
+      { "scenario": "全 API リトライ失敗",        "result": "RuntimeError 発火",               "safe_stop": true },
+      { "scenario": "空 tasks/goals 入力",         "result": "HITL 移譲（hitl_required=True）", "safe_stop": true },
+      { "scenario": "不完全 trace_chain",           "result": "HITL 移譲（hitl_elements 設定）","safe_stop": true },
+      { "scenario": "循環依存検出",                "result": "HITL 移譲（hitl_elements 設定）", "safe_stop": true },
+      { "scenario": "cosine 計算失敗",             "result": "RuntimeError(__cause__ 保持）",   "safe_stop": true },
+      { "scenario": "抽象語 recommendation",       "result": "HITL 移譲（hitl_elements=[\"recommendations\"]）", "safe_stop": true },
+      { "scenario": "孤立ノード（F10 ツリー）",   "result": "WARNING ログ + 処理継続",          "safe_stop": true },
+      { "scenario": "例外発生後の他モジュール",   "result": "例外影響なし（独立性確認）",       "safe_stop": true }
+    ]
+  },
+  "security_compliance": {
+    "all_pass": true,
+    "requirements": [
+      { "requirement": "APIキーは HITL 手動入力（コードに不在）",          "status": "適合" },
+      { "requirement": "APIキーをログ・出力に表示しない",                   "status": "適合" },
+      { "requirement": "外部サービス接続は最小権限（全件モック化）",        "status": "適合" },
+      { "requirement": ".env ファイルは Git 非コミット（.gitignore適用済）","status": "適合" }
+    ]
+  },
+  "constraints": [
+    { "id": "C-01", "description": "プロンプトファイル不在テストは環境依存スキップ",         "classification": "環境制約",   "resolution_phase": "Phase 5 CI" },
+    { "id": "C-02", "description": "F10 API 実呼び出しは全テストでモック化（APIキー不使用）","classification": "セキュリティ方針", "resolution_phase": "運用時 HITL 手動入力" },
+    { "id": "C-03", "description": "実行時間依存テストなし（time.sleep は全件モック）",      "classification": "テスト設計", "resolution_phase": "維持" }
+  ],
+  "phase5_preparation": [
+    { "priority": 1, "item": "CI/CD 環境整備",        "detail": "テストスイート（1,068件）を CI パイプラインに組み込む" },
+    { "priority": 2, "item": "プロンプトファイル管理", "detail": "F10 system_prompt ファイルのバージョン管理体制を確立する" },
+    { "priority": 3, "item": "API キー管理",           "detail": "運用環境での HITL 手動入力フローを文書化する" },
+    { "priority": 4, "item": "ログ監視設定",           "detail": "WARNING/ERROR ログの監視アラートを設定する" },
+    { "priority": 5, "item": "リトライ遅延調整",       "detail": "本番環境の通信特性に合わせ RETRY_DELAYS を調整する" }
+  ],
+  "artifacts": {
+    "report_html": "docs/phase4/reports/wp8330_report.html",
+    "report_json": "docs/phase4/reports/wp8330_report.json",
+    "visual_dashboard": "https://claude.ai/code/artifact/7a059da6-7f09-4af0-bda4-a10ecdf85849",
+    "judgment_md": "docs/phase4/WP8330_TRANSITION_JUDGMENT.md",
+    "summary_log": "docs/phase4/logs/summary.log",
+    "full_run_log": "docs/phase4/logs/WP8330_ALL_PHASE4_RUN.txt"
+  }
+}

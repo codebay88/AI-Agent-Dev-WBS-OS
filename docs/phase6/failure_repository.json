@@ -1,0 +1,136 @@
+{
+  "generated_at": "2026-07-22T19:37:33.136330",
+  "total_failures": 5,
+  "total_patterns": 5,
+  "failures": [
+    {
+      "failure_id": "FL-001",
+      "module": "F10",
+      "category": "hitl",
+      "description": "曖昧語（など/いろいろ等）を含む入力で HITL が発動",
+      "condition": "goal_text に AMBIGUOUS_WORDS が含まれる",
+      "resolution": "ユーザーが曖昧語を除去して再入力する",
+      "source": "WP8230"
+    },
+    {
+      "failure_id": "FL-002",
+      "module": "F10",
+      "category": "retry_exceeded",
+      "description": "API 呼び出しが MAX_RETRY=3 回失敗し RuntimeError が発生",
+      "condition": "ネットワーク障害または API タイムアウト",
+      "resolution": "フェイルセーフ発動・エラーを上位に伝播",
+      "source": "WP8220"
+    },
+    {
+      "failure_id": "FL-003",
+      "module": "F60",
+      "category": "mece_uncertainty",
+      "description": "cosine 類似度が 0.80〜0.85 の不確実域で HITL_required が発動",
+      "condition": "0.80 ≤ cos ≤ 0.85（重複ではなく不確実）",
+      "resolution": "HITL 承認後に再処理またはスキップ",
+      "source": "WP8130"
+    },
+    {
+      "failure_id": "FL-004",
+      "module": "F80",
+      "category": "trace_chain",
+      "description": "不明な trace_id または循環依存が検出され HITL 移譲",
+      "condition": "trace_chain に存在しない trace_id が参照される",
+      "resolution": "HITL 移譲・hitl_elements にノードを記録",
+      "source": "WP8230"
+    },
+    {
+      "failure_id": "FL-005",
+      "module": "F40",
+      "category": "hitl",
+      "description": "タスクリストが空で HITL_required が発動",
+      "condition": "goals が空リスト、または全ゴールが除外された場合",
+      "resolution": "ユーザーが目的を見直して再入力",
+      "source": "WP8230"
+    }
+  ],
+  "prevention_patterns": [
+    {
+      "pattern_id": "PP-001",
+      "category": "hitl",
+      "trigger": "AMBIGUOUS_WORDS 検出 / タスク空 / cosine 不確実域",
+      "action": "HITL 移譲（hitl=True）→ ユーザー承認待ち",
+      "threshold": "曖昧語 1 件以上 / cos 0.80〜0.85 / tasks==[]",
+      "related_failures": [
+        "FL-001",
+        "FL-003",
+        "FL-005"
+      ]
+    },
+    {
+      "pattern_id": "PP-002",
+      "category": "retry_exceeded",
+      "trigger": "API 連続失敗 MAX_RETRY=3 回",
+      "action": "RuntimeError 発火・パイプライン即時停止",
+      "threshold": "retry_count >= 3",
+      "related_failures": [
+        "FL-002"
+      ]
+    },
+    {
+      "pattern_id": "PP-003",
+      "category": "trace_chain",
+      "trigger": "不明 trace_id / 循環依存",
+      "action": "HITL 移譲（hitl_elements に対象ノードを記録）",
+      "threshold": "trace_chain 参照エラー 1 件以上",
+      "related_failures": [
+        "FL-004"
+      ]
+    },
+    {
+      "pattern_id": "PP-004",
+      "category": "api_error",
+      "trigger": "ERROR アラート 3 件以上（consecutive_errors 閾値）",
+      "action": "critical アラート発火・即時対応要求",
+      "threshold": "consecutive_errors >= 3",
+      "related_failures": []
+    },
+    {
+      "pattern_id": "PP-AUTO-004",
+      "category": "mece_uncertainty",
+      "trigger": "cosine 類似度が 0.80〜0.85 の不確実域で HITL_required が発動",
+      "action": "ログ記録・調査",
+      "threshold": "1 件以上",
+      "related_failures": [
+        "FL-003"
+      ]
+    }
+  ],
+  "clusters": [
+    {
+      "category": "hitl",
+      "count": 2,
+      "failure_ids": [
+        "FL-001",
+        "FL-005"
+      ]
+    },
+    {
+      "category": "mece_uncertainty",
+      "count": 1,
+      "failure_ids": [
+        "FL-003"
+      ]
+    },
+    {
+      "category": "retry_exceeded",
+      "count": 1,
+      "failure_ids": [
+        "FL-002"
+      ]
+    },
+    {
+      "category": "trace_chain",
+      "count": 1,
+      "failure_ids": [
+        "FL-004"
+      ]
+    }
+  ],
+  "phase7_ready": true
+}

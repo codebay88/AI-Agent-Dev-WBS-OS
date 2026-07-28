@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-07-23T15:19:45.700978",
+  "module": "F9620",
+  "hitl_points": [
+    {
+      "id": "H-001",
+      "agent": "AIWBS",
+      "trigger": "曖昧語検出",
+      "loop": "L-001",
+      "action": "ユーザー入力要求"
+    },
+    {
+      "id": "H-002",
+      "agent": "AIWBS",
+      "trigger": "MECE 不確実域",
+      "loop": "L-001",
+      "action": "承認 or 再実行"
+    },
+    {
+      "id": "H-003",
+      "agent": "SUPPORT",
+      "trigger": "F9510 計画レビュー",
+      "loop": "L-002",
+      "action": "HITL 承認"
+    },
+    {
+      "id": "H-004",
+      "agent": "SUPPORT",
+      "trigger": "F9520 統合レビュー",
+      "loop": "L-002",
+      "action": "HITL 承認"
+    },
+    {
+      "id": "H-005",
+      "agent": "SUPPORT",
+      "trigger": "F9530 最終承認",
+      "loop": "L-002",
+      "action": "HITL 承認"
+    },
+    {
+      "id": "H-006",
+      "agent": "BOTH",
+      "trigger": "異常検知 / ERROR累積",
+      "loop": "ALL",
+      "action": "即時停止 + HITL 移譲"
+    }
+  ],
+  "autonomy_rules": [
+    {
+      "rule_id": "AR-001",
+      "desc": "ERROR が1件でも発生した場合は即時 HITL 移譲（自律判断禁止）"
+    },
+    {
+      "rule_id": "AR-002",
+      "desc": "HITL 移譲後30秒以内に応答がない場合はパイプラインを一時停止"
+    },
+    {
+      "rule_id": "AR-003",
+      "desc": "承認率が 90% を超えた場合は誤承認警告を出力"
+    },
+    {
+      "rule_id": "AR-004",
+      "desc": "MAX_RETRY=3 超過時は RuntimeError + 自律運用停止"
+    }
+  ],
+  "hitl_log": [
+    "[2026-07-23T15:19:45.700978] Step3: hitl_points=6 flow_defined=True rules=4"
+  ]
+}

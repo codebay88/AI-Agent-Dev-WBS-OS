@@ -1,0 +1,253 @@
+{
+  "generated_at": "2026-07-23T14:51:04.558312",
+  "module": "F9610",
+  "function": "unified_architecture_design",
+  "phase": 9,
+  "phase9_stage": "integration_design",
+  "agents": {
+    "aiwbs": {
+      "id": "AIWBS",
+      "name": "AIWBS作成エージェント",
+      "purpose": "目的入力から WBS を自動生成する9段階パイプライン",
+      "modules": [
+        "F10",
+        "F20",
+        "F30",
+        "F40",
+        "F50",
+        "F60",
+        "F70",
+        "F80",
+        "F90"
+      ],
+      "inputs": [
+        "goal_text",
+        "hitl_decisions"
+      ],
+      "outputs": [
+        "wbs_structure",
+        "traceability_map",
+        "mece_report"
+      ],
+      "responsibilities": [
+        "目的構造化",
+        "タスク生成",
+        "MECE検証",
+        "階層生成",
+        "トレーサビリティ生成",
+        "最終出力生成"
+      ],
+      "log_keys": [
+        "PASS",
+        "HITL",
+        "RETRY",
+        "ERROR"
+      ],
+      "io_integrity": 100.0
+    },
+    "support": {
+      "id": "SUPPORT",
+      "name": "AI導入支援エージェント",
+      "purpose": "Claude Code の学習成果を組織展開・安定稼働支援",
+      "modules": [
+        "F9510",
+        "F9520",
+        "F9530"
+      ],
+      "inputs": [
+        "learning_dataset.json",
+        "learning_patterns.json",
+        "optimization_report.json",
+        "failure_repository.json"
+      ],
+      "outputs": [
+        "deployment_plan.json",
+        "integration_report.json",
+        "stability_report.json",
+        "deployment_summary.json"
+      ],
+      "responsibilities": [
+        "展開計画設計",
+        "サポートエージェント統合",
+        "展開テスト・安定化",
+        "HITL 最終承認"
+      ],
+      "log_keys": [
+        "F9510",
+        "F9520",
+        "F9530",
+        "HITL",
+        "ROLLBACK"
+      ],
+      "io_integrity": 1.0,
+      "repro_passed": true
+    }
+  },
+  "shared_store": "docs/knowledge_cycle/",
+  "control_layer": "Claude Code (autonomous)",
+  "unified_hitl_flow": {
+    "aiwbs_hitl_points": [
+      "F10",
+      "F30",
+      "F60",
+      "F80"
+    ],
+    "support_hitl_points": [
+      "F9510",
+      "F9520",
+      "F9530"
+    ],
+    "unified_approval": "claude_code_hitl_manager"
+  },
+  "boundaries": [
+    {
+      "id": "B-001",
+      "from": "AIWBS",
+      "to": "SUPPORT",
+      "point": "wbs_structure → learning_dataset への変換",
+      "type": "output→input"
+    },
+    {
+      "id": "B-002",
+      "from": "SUPPORT",
+      "to": "AIWBS",
+      "point": "failure_repository → HITL 辞書へのフィードバック",
+      "type": "feedback"
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "D-001",
+      "dependent": "SUPPORT",
+      "depends_on": "AIWBS",
+      "artifact": "learning_dataset.json",
+      "direction": "AIWBS → SUPPORT"
+    },
+    {
+      "id": "D-002",
+      "dependent": "AIWBS",
+      "depends_on": "SUPPORT",
+      "artifact": "optimization_report.json",
+      "direction": "SUPPORT → AIWBS"
+    },
+    {
+      "id": "D-003",
+      "dependent": "both",
+      "depends_on": "knowledge_cycle",
+      "artifact": "knowledge_cycle/index.yaml",
+      "direction": "shared"
+    }
+  ],
+  "data_flow": [
+    {
+      "id": "DF-001",
+      "source": "AIWBS (F90)",
+      "sink": "knowledge_cycle",
+      "artifact": "learning_dataset.json",
+      "stage": "Phase 7"
+    },
+    {
+      "id": "DF-002",
+      "source": "knowledge_cycle",
+      "sink": "SUPPORT (F9510)",
+      "artifact": "learning_patterns.json",
+      "stage": "Phase 8"
+    },
+    {
+      "id": "DF-003",
+      "source": "SUPPORT (F9530)",
+      "sink": "knowledge_cycle",
+      "artifact": "optimization_report.json",
+      "stage": "Phase 8"
+    },
+    {
+      "id": "DF-004",
+      "source": "knowledge_cycle",
+      "sink": "AIWBS (F10〜F90)",
+      "artifact": "failure_repository.json",
+      "stage": "Phase 6"
+    }
+  ],
+  "design_rules": [
+    {
+      "id": "R-001",
+      "name": "因果分解",
+      "desc": "各エージェントの入力→処理→出力を原因・処理・結果として明示する"
+    },
+    {
+      "id": "R-002",
+      "name": "MECE",
+      "desc": "両エージェントの責務は相互排他・網羅的であること"
+    },
+    {
+      "id": "R-003",
+      "name": "責務分離",
+      "desc": "AIWBS は WBS 生成に専念し、SUPPORT は展開・安定化に専念する"
+    },
+    {
+      "id": "R-004",
+      "name": "データ流通一貫性",
+      "desc": "knowledge_cycle を唯一の共有データストアとする"
+    },
+    {
+      "id": "R-005",
+      "name": "HITL 統合",
+      "desc": "両エージェントの HITL ポイントを unified_hitl_flow に統合する"
+    }
+  ],
+  "rules_applied": [
+    {
+      "rule": "R-001",
+      "name": "因果分解",
+      "passed": true,
+      "detail": "両エージェントに inputs/outputs が定義済み"
+    },
+    {
+      "rule": "R-002",
+      "name": "MECE",
+      "passed": true,
+      "detail": "ME=True CE=True"
+    },
+    {
+      "rule": "R-003",
+      "name": "責務分離",
+      "passed": true,
+      "detail": "boundary_overlap=False"
+    },
+    {
+      "rule": "R-004",
+      "name": "データ流通一貫性",
+      "passed": true,
+      "detail": "knowledge_cycle 経由フロー=True"
+    },
+    {
+      "rule": "R-005",
+      "name": "HITL 統合",
+      "passed": true,
+      "detail": "aiwbs_hitl=True support_hitl=True"
+    }
+  ],
+  "log_system": {
+    "aiwbs_logs": [
+      "PASS",
+      "HITL",
+      "RETRY",
+      "ERROR"
+    ],
+    "support_logs": [
+      "F9510",
+      "F9520",
+      "F9530",
+      "HITL",
+      "ROLLBACK"
+    ],
+    "unified_log": "docs/phase4/logs/summary.log"
+  },
+  "validation": {
+    "boundary_overlap": false,
+    "responsibility_conflict": false,
+    "data_flow_consistency": true,
+    "mece_ok": true,
+    "all_rules_passed": true
+  }
+}

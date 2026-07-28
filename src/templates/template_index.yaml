@@ -1,0 +1,37 @@
+# WP9220 テンプレ改善 — テンプレート構造インデックス
+# F50 モジュールが使用するテンプレート定義の正規参照
+
+version: "1.0.0"
+phase: 6
+source_module: src/agents/f50_module.py
+
+templates:
+  - id: TMP_HIGH
+    priority: High
+    module: F50
+    pattern: "【優先度: 高】次のタスクを実行せよ: {task_text}"
+    hitl_condition: "task_text に AMBIGUOUS_WORDS が含まれる場合"
+    failsafe: "HITL移譲（hitl=True, hitl_elements=[task_id]）"
+
+  - id: TMP_MEDIUM
+    priority: Medium
+    module: F50
+    pattern: "【優先度: 中】検討すべきタスク: {task_text}"
+    hitl_condition: "task_text に AMBIGUOUS_WORDS が含まれる場合"
+    failsafe: "HITL移譲（hitl=True, hitl_elements=[task_id]）"
+
+  - id: TMP_LOW
+    priority: Low
+    module: F50
+    pattern: "【優先度: 低】参考タスク: {task_text}"
+    hitl_condition: "task_text に AMBIGUOUS_WORDS が含まれる場合"
+    failsafe: "HITL移譲（hitl=True, hitl_elements=[task_id]）"
+
+# モジュール間依存関係（F10→F90 トレーサビリティ）
+pipeline_dependency:
+  F50_input:  [task_id, task_text, priority, estimated_effort, trace_id, source_trace_id]
+  F50_output: [applied_tasks, hitl, hitl_elements, hitl_reason, trace_id, source_trace_id]
+
+# 改善フラグ
+optimization_status: stable   # stable | adjusted
+last_reviewed: "2026-07-22"

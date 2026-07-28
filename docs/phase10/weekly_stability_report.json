@@ -1,0 +1,36 @@
+{
+  "module": "F10120",
+  "name": "weekly_stability_report_generation",
+  "generated_at": "2026-07-23T20:05:11.557514",
+  "period_days": 7,
+  "aggregated_metrics": {
+    "days_count": 7,
+    "avg_uptime_rate": 1.0,
+    "avg_error_rate": 0.0,
+    "avg_latency": 0.312,
+    "total_error_count": 0,
+    "stability_indices": [
+      0.97,
+      0.97,
+      0.97,
+      0.97,
+      0.97,
+      0.97,
+      0.97
+    ]
+  },
+  "weekly_stability_index": 0.97,
+  "weekly_stability_ok": true,
+  "weekly_stability_threshold": 0.92,
+  "reproducibility": {
+    "rate": 1.0,
+    "threshold": 0.95,
+    "ok": true
+  },
+  "safety": {
+    "api_auth_status": "authenticated",
+    "safety_ok": true
+  },
+  "hitl_point": "H-P10-005",
+  "phase10_stage": "weekly_stability_pending_hitl"
+}

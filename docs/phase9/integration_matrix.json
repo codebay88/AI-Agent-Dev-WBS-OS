@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-07-23T14:51:04.558312",
+  "module": "F9610",
+  "phase": 9,
+  "phase9_stage": "integration_design",
+  "axes": {
+    "structure": {
+      "aiwbs": 9,
+      "support": 3,
+      "shared": 1
+    },
+    "io": {
+      "entries": 17,
+      "verified": 17,
+      "integrity": 1.0
+    },
+    "responsibility": {
+      "aiwbs_count": 6,
+      "support_count": 4,
+      "conflict": false
+    },
+    "data_flow": {
+      "flow_count": 4,
+      "consistent": true
+    },
+    "rules": {
+      "applied": 5,
+      "passed": 5
+    }
+  },
+  "evaluation": {
+    "io_integrity_ok": true,
+    "boundary_overlap": false,
+    "responsibility_conflict": false,
+    "data_flow_consistency": true,
+    "all_rules_passed": true,
+    "phase8_complete": true
+  },
+  "overall_ok": true
+}

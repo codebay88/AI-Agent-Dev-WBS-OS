@@ -1,0 +1,40 @@
+{
+  "trace_id": "F40",
+  "source_trace_id": "F30",
+  "tasks": [
+    {
+      "task_id": "T1",
+      "element_id": "E1",
+      "task_text": "【計画】売上を伸ばす",
+      "priority": "Medium",
+      "estimated_effort": 3,
+      "estimated_value": 4
+    },
+    {
+      "task_id": "T2",
+      "element_id": "E2",
+      "task_text": "【計画】新規獲得",
+      "priority": "Medium",
+      "estimated_effort": 3,
+      "estimated_value": 3
+    },
+    {
+      "task_id": "T3",
+      "element_id": "E3",
+      "task_text": "【計画】LP作成",
+      "priority": "Medium",
+      "estimated_effort": 2,
+      "estimated_value": 3
+    },
+    {
+      "task_id": "T4",
+      "element_id": "E4",
+      "task_text": "【計画】広告配信",
+      "priority": "Medium",
+      "estimated_effort": 2,
+      "estimated_value": 3
+    }
+  ],
+  "hitl": false,
+  "hitl_elements": []
+}
