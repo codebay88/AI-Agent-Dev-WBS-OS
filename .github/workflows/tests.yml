@@ -27,4 +27,4 @@ jobs:
           pip install pytest pytest-mock
 
       - name: Run test suite
-        run: pytest tests/ -v
+        run: python -m pytest tests/ -v
