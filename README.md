@@ -19,6 +19,7 @@ English README (this page) | [日本語版](./README.ja.md)
 ## Table of Contents
 
 - [Overview](#overview)
+- [Why a General-Purpose Agent](#why-a-general-purpose-agent)
 - [Pipeline](#pipeline)
 - [Features](#features)
 - [Example Output](#example-output)
@@ -39,6 +40,36 @@ English README (this page) | [日本語版](./README.ja.md)
 An open-source project combining an **AI Adoption Support Agent** (protocol-type) with an **AI-WBS Generation
 Agent** (code-type) to structure the AI-adoption process and auto-generate a reproducible Work Breakdown Structure
 (WBS) from a stated goal.
+
+## Why a General-Purpose Agent
+
+This project deliberately avoids specializing in any single industry or domain. That's not a limitation — it's a
+design choice grounded in how far current AI (Claude included) actually goes.
+
+2026 research shows leading models now match or exceed expert-level performance on professional benchmarks in
+fields like law and chemistry. At the same time, the same research documents "jagged capabilities" — models that
+ace hard benchmarks while failing simpler tasks — and reports roughly a 37% gap between lab benchmark scores and
+real-world performance for enterprise agentic AI systems (see Sources below).
+
+In other words: today's AI isn't yet reliable for a field's frontier, highest-stakes judgment calls, but it's
+genuinely capable at the standard, practitioner-level structuring and organizing work that most fields need most
+of the time. Generating a WBS — turning an ambiguous goal into an actionable structure — sits squarely in that
+second category, not the first.
+
+Given that, this project takes two deliberate design stances:
+
+- **A domain-agnostic engine.** F10's system prompt ([`src/prompts/f10_system.txt`](./src/prompts/f10_system.txt))
+  contains no industry-specific knowledge at all — it's pure hierarchical decomposition logic. Domain expertise is
+  left entirely to the underlying model's own general knowledge, not hardcoded into this project.
+- **HITL as the compensating control.** Wherever the AI's specialized depth falls short, the HITL mechanism is
+  designed to bring a human into the loop at exactly that point. The system doesn't assume the AI is a perfect
+  domain expert — it assumes it isn't, and builds a human checkpoint around that gap.
+
+A general-purpose agent paired with human review, rather than a narrow domain specialist, is a deliberate bet on
+where current AI capability actually is — not a shortcut around building something more specialized.
+
+*Sources: [International AI Safety Report 2026](https://arxiv.org/pdf/2602.21012); [AI Benchmarks 2026: Top
+Evaluations and Their Limits](https://kili-technology.com/blog/ai-benchmarks-guide-the-top-evaluations-in-2026-and-why-theyre-not-enough).*
 
 ## Pipeline
 
